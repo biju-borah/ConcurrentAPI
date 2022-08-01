@@ -1,0 +1,23 @@
+{
+  "name": "ConcurrentAPI",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/biju-borah/ConcurrentAPI.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/biju-borah/ConcurrentAPI/issues"
+  },
+  "homepage": "https://github.com/biju-borah/ConcurrentAPI#readme",
+  "dependencies": {
+    "express": "^4.18.1"
+  }
+}
