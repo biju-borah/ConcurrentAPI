@@ -5,11 +5,11 @@ var app = express();
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
-app.post("/api", (req, res, next) => {
+app.post("/", (req, res, next) => {
     console.log(req.body)
     res.json(req.body)
 })
-app.get("/api", (req, res, next) => {
+app.get("/", (req, res, next) => {
     if (req.query.timeFrame == null) {
         res.json(
             { data: '456' }
