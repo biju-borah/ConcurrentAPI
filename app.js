@@ -12,12 +12,28 @@ app.post("/", (req, res, next) => {
 app.get("/", (req, res, next) => {
     if (req.query.timeFrame == null) {
         res.json(
-            { data: '456' }
+            {
+                data: {
+                    a: 1,
+                    b: 2,
+                    c: 3,
+                    d: 4,
+                    e: 5,
+                }
+            }
         );
     }
     else {
         res.json(
-            { data: '456' }
+            {
+                data: {
+                    a: 1,
+                    b: 2,
+                    c: 3,
+                    d: 4,
+                    e: 5,
+                }
+            }
         );
     }
 });
