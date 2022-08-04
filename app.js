@@ -1,16 +1,16 @@
 const bodyParser = require("body-parser");
 const { query } = require("express");
-const { writeRecords } = require("./crud")
 var express = require("express");
 var app = express();
 const AWS = require("aws-sdk");
 AWS.config.update({ region: "us-east-1" });
-
-var https = require('https');
-var agent = new https.Agent({
+var http = require('http');
+var agent = new http.Agent({
     maxSockets: 5000
 });
 writeClient = new AWS.TimestreamWrite({
+    accessKeyId: AWS_ACCESS_KEY_ID,
+    secretAccessKey: AWS_SECRET_ACCESS_KEY,
     maxRetries: 10,
     httpOptions: {
         timeout: 20000,
