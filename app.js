@@ -54,48 +54,48 @@ app.get("/", (req, res, next) => {
                 "MeasureValues": [
                     {
                         "Name": "x",
-                        "Type": "1.2",
-                        "Value": "BIGINT"
+                        "Type": "BIGINT",
+                        "Value": "1.2"
                     },
                     {
                         "Name": "y",
-                        "Type": "1.2",
-                        "Value": "BIGINT"
+                        "Type": "BIGINT",
+                        "Value": "1.2"
                     },
                     {
                         "Name": "z",
-                        "Type": "1.2",
-                        "Value": "BIGINT"
+                        "Type": "BIGINT",
+                        "Value": "1.2"
                     },
                     {
                         "Name": "a",
-                        "Type": "1.2",
-                        "Value": "BIGINT"
+                        "Type": "BIGINT",
+                        "Value": "1.2"
                     },
                     {
                         "Name": "b",
-                        "Type": "1.2",
-                        "Value": "BIGINT"
+                        "Type": "BIGINT",
+                        "Value": "1.2"
                     },
                     {
                         "Name": "c",
-                        "Type": "1.2",
-                        "Value": "BIGINT"
+                        "Type": "BIGINT",
+                        "Value": "1.2"
                     },
                     {
                         "Name": "m",
-                        "Type": "life",
-                        "Value": "STRING"
+                        "Type": "STRING",
+                        "Value": "life"
                     },
                     {
                         "Name": "n",
-                        "Type": "is",
-                        "Value": "STRING"
+                        "Type": "STRING",
+                        "Value": "is"
                     },
                     {
                         "Name": "p",
-                        "Type": "beautiful",
-                        "Value": "STRING"
+                        "Type": "STRING",
+                        "Value": "beautiful"
                     }
                 ],
                 "Time": currentTime.toString(),
