@@ -51,6 +51,13 @@ app.get("/", (req, res, next) => {
         "DatabaseName": "IoT",
         "Records": [
             {
+                Dimensions: [
+                    {
+                        Name: 'SensorID',
+                        Value: id.toString(),
+                        DimensionValueType: VARCHAR
+                    },
+                ],
                 "MeasureValues": [
                     {
                         "Name": "x",
