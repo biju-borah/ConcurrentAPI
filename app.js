@@ -108,7 +108,7 @@ app.get("/", (req, res, next) => {
 
     const request = writeClient.writeRecords(params);
 
-    await request.promise().then(
+    request.promise().then(
         (data) => {
             console.log("Write records successful");
         },
