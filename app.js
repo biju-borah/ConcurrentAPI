@@ -55,7 +55,7 @@ app.get("/", (req, res, next) => {
                     {
                         Name: 'SensorID',
                         Value: id,
-                        DimensionValueType: VARCHAR
+                        DimensionValueType: "VARCHAR"
                     },
                 ],
                 "MeasureValues": [
