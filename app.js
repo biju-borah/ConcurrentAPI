@@ -25,7 +25,7 @@ app.post("/", (req, res, next) => {
     console.log(req.body)
     res.json(req.body)
 })
-app.get("/", async (req, res, next) => {
+app.get("/", (req, res, next) => {
     const id = req.params.id
     const timeInterval = req.params.timeInterval
     await writeRecords(id, timeInterval)
