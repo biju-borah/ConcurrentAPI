@@ -9,8 +9,8 @@ var agent = new http.Agent({
     maxSockets: 5000
 });
 writeClient = new AWS.TimestreamWrite({
-    accessKeyId: AWS_ACCESS_KEY_ID,
-    secretAccessKey: AWS_SECRET_ACCESS_KEY,
+    accessKeyId: process.env.AWS_ACCESS_KEY_ID,
+    secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
     maxRetries: 10,
     httpOptions: {
         timeout: 20000,
@@ -28,16 +28,6 @@ app.post("/", (req, res, next) => {
 app.get("/", (req, res, next) => {
     const id = req.params.id
     const timeInterval = req.params.timeInterval
-    await writeRecords(id, timeInterval)
-    res.status(200)
-});
-
-app.listen(process.env.PORT, () => {
-    console.log("Server running......");
-});
-
-async function writeRecords(sensorID, timeStamp) {
-    console.log("Writing records");
     const currentTime = Date.now().toString(); // Unix time in milliseconds
 
     const data = {
@@ -76,4 +66,14 @@ async function writeRecords(sensorID, timeStamp) {
             }
         }
     );
+    res.status(200)
+});
+
+app.listen(process.env.PORT, () => {
+    console.log("Server running......");
+});
+
+async function writeRecords(sensorID, timeStamp) {
+    console.log("Writing records");
+
 }
