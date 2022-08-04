@@ -3,11 +3,11 @@ var express = require("express");
 var app = express();
 const AWS = require("aws-sdk");
 AWS.config.update({ region: "us-east-1" });
-var http = require('http');
+var https = require('https');
 const { DATABASE_NAME, TABLE_NAME } = require('./constant')
 
 
-var agent = new http.Agent({
+var agent = new https.Agent({
     maxSockets: 5000
 });
 writeClient = new AWS.TimestreamWrite({
