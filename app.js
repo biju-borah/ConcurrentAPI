@@ -54,7 +54,7 @@ app.get("/", (req, res, next) => {
                 Dimensions: [
                     {
                         Name: 'SensorID',
-                        Value: id.toString(),
+                        Value: id,
                         DimensionValueType: VARCHAR
                     },
                 ],
