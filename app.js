@@ -1,10 +1,12 @@
 const bodyParser = require("body-parser");
-const { query } = require("express");
 var express = require("express");
 var app = express();
 const AWS = require("aws-sdk");
 AWS.config.update({ region: "us-east-1" });
 var http = require('http');
+const { DATABASE_NAME, TABLE_NAME } = require('./constant')
+
+
 var agent = new http.Agent({
     maxSockets: 5000
 });
@@ -30,25 +32,78 @@ app.get("/", (req, res, next) => {
     const timeInterval = req.params.timeInterval
     const currentTime = Date.now().toString(); // Unix time in milliseconds
 
-    const data = {
-        'x': 1.2,
-        'y': 1.2,
-        'z': 1.2,
-        'a': 1.2,
-        'b': 1.2,
-        'c': 1.2,
-        'm': 1.2,
-        'n': 1.2,
-        'p': 1.2,
-        'Time': currentTime.toString()
-    };
+    // const data = {
+    //     'x': 1.2,
+    //     'y': 1.2,
+    //     'z': 1.2,
+    //     'a': 1.2,
+    //     'b': 1.2,
+    //     'c': 1.2,
+    //     'm': 1.2,
+    //     'n': 1.2,
+    //     'p': 1.2,
+    //     'Time': currentTime.toString()
+    // };
 
-    const records = data;
+    // const records = data;
 
     const params = {
-        DatabaseName: constants.DATABASE_NAME,
-        TableName: constants.TABLE_NAME + sensorID + "_" + timeStamp,
-        Records: records
+        "DatabaseName": "IoT",
+        "Records": [
+            {
+                "MeasureValues": [
+                    {
+                        "Name": "x",
+                        "Type": "1.2",
+                        "Value": "BIGINT"
+                    },
+                    {
+                        "Name": "y",
+                        "Type": "1.2",
+                        "Value": "BIGINT"
+                    },
+                    {
+                        "Name": "z",
+                        "Type": "1.2",
+                        "Value": "BIGINT"
+                    },
+                    {
+                        "Name": "a",
+                        "Type": "1.2",
+                        "Value": "BIGINT"
+                    },
+                    {
+                        "Name": "b",
+                        "Type": "1.2",
+                        "Value": "BIGINT"
+                    },
+                    {
+                        "Name": "c",
+                        "Type": "1.2",
+                        "Value": "BIGINT"
+                    },
+                    {
+                        "Name": "m",
+                        "Type": "life",
+                        "Value": "STRING"
+                    },
+                    {
+                        "Name": "n",
+                        "Type": "is",
+                        "Value": "STRING"
+                    },
+                    {
+                        "Name": "p",
+                        "Type": "beautiful",
+                        "Value": "STRING"
+                    }
+                ],
+                "Time": currentTime.toString(),
+                "TimeUnit": "SECONDS",
+                "Version": 1
+            }
+        ],
+        "TableName": `IoT_${id}_${timeInterval}`
     };
 
     const request = writeClient.writeRecords(params);
@@ -73,7 +128,3 @@ app.listen(process.env.PORT, () => {
     console.log("Server running......");
 });
 
-async function writeRecords(sensorID, timeStamp) {
-    console.log("Writing records");
-
-}
