@@ -84,17 +84,17 @@ app.get("/", (req, res, next) => {
                     },
                     {
                         "Name": "m",
-                        "Type": "STRING",
+                        "Type": "VARCHAR",
                         "Value": "life"
                     },
                     {
                         "Name": "n",
-                        "Type": "STRING",
+                        "Type": "VARCHAR",
                         "Value": "is"
                     },
                     {
                         "Name": "p",
-                        "Type": "STRING",
+                        "Type": "VARCHAR",
                         "Value": "beautiful"
                     }
                 ],
