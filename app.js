@@ -29,8 +29,8 @@ app.post("/", (req, res, next) => {
     res.json(req.body)
 })
 app.get("/", (req, res, next) => {
-    const id = String(req.params.id)
-    const timeInterval = String(req.params.timeInterval)
+    const id = String(req.query.id)
+    const timeInterval = String(req.query.timeInterval)
     const currentTime = Date.now().toString(); // Unix time in milliseconds
     if (id == "undefined") res.status(200).json({ err: "id not defined" });
 
