@@ -45,56 +45,43 @@ app.get("/", (req, res, next) => {
                         DimensionValueType: "VARCHAR"
                     },
                 ],
-                "MeasureValues": [
-                    {
-                        "Name": "x",
-                        "Type": "DOUBLE",
-                        "Value": "1.2"
-                    },
-                    {
-                        "Name": "y",
-                        "Type": "DOUBLE",
-                        "Value": "1.2"
-                    },
-                    {
-                        "Name": "z",
-                        "Type": "DOUBLE",
-                        "Value": "1.2"
-                    },
-                    {
-                        "Name": "a",
-                        "Type": "DOUBLE",
-                        "Value": "1.2"
-                    },
-                    {
-                        "Name": "b",
-                        "Type": "DOUBLE",
-                        "Value": "1.2"
-                    },
-                    {
-                        "Name": "c",
-                        "Type": "DOUBLE",
-                        "Value": "1.2"
-                    },
-                    {
-                        "Name": "m",
-                        "Type": "VARCHAR",
-                        "Value": "life"
-                    },
-                    {
-                        "Name": "n",
-                        "Type": "VARCHAR",
-                        "Value": "is"
-                    },
-                    {
-                        "Name": "p",
-                        "Type": "VARCHAR",
-                        "Value": "beautiful"
-                    }
-                ],
-                // 'MeasureName': 'X',
-                // 'MeasureValue': '1.2',
-                // 'MeasureValueType': 'DOUBLE',
+
+                'MeasureName': 'X',
+                'MeasureValue': '1.2',
+                'MeasureValueType': 'DOUBLE',
+
+                'MeasureName': 'Y',
+                'MeasureValue': '1.2',
+                'MeasureValueType': 'DOUBLE',
+
+                'MeasureName': 'Z',
+                'MeasureValue': '1.2',
+                'MeasureValueType': 'DOUBLE',
+
+                'MeasureName': 'A',
+                'MeasureValue': '1.2',
+                'MeasureValueType': 'DOUBLE',
+
+                'MeasureName': 'B',
+                'MeasureValue': '1.2',
+                'MeasureValueType': 'DOUBLE',
+
+                'MeasureName': 'C',
+                'MeasureValue': '1.2',
+                'MeasureValueType': 'DOUBLE',
+
+                'MeasureName': 'M',
+                'MeasureValue': 'LIFE',
+                'MeasureValueType': 'VARCHAR',
+
+                'MeasureName': 'N',
+                'MeasureValue': 'IS',
+                'MeasureValueType': 'VARCHAR',
+
+                'MeasureName': 'P',
+                'MeasureValue': 'BEAUTIFUL',
+                'MeasureValueType': 'VARCHAR',
+
 
                 "Time": currentTime,
                 "TimeUnit": "MILLISECONDS",
