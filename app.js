@@ -58,54 +58,58 @@ app.get("/", (req, res, next) => {
                         DimensionValueType: "VARCHAR"
                     },
                 ],
-                "MeasureValues": [
-                    {
-                        "Name": "x",
-                        "Type": "BIGINT",
-                        "Value": "1.2"
-                    },
-                    {
-                        "Name": "y",
-                        "Type": "BIGINT",
-                        "Value": "1.2"
-                    },
-                    {
-                        "Name": "z",
-                        "Type": "BIGINT",
-                        "Value": "1.2"
-                    },
-                    {
-                        "Name": "a",
-                        "Type": "BIGINT",
-                        "Value": "1.2"
-                    },
-                    {
-                        "Name": "b",
-                        "Type": "BIGINT",
-                        "Value": "1.2"
-                    },
-                    {
-                        "Name": "c",
-                        "Type": "BIGINT",
-                        "Value": "1.2"
-                    },
-                    {
-                        "Name": "m",
-                        "Type": "VARCHAR",
-                        "Value": "life"
-                    },
-                    {
-                        "Name": "n",
-                        "Type": "VARCHAR",
-                        "Value": "is"
-                    },
-                    {
-                        "Name": "p",
-                        "Type": "VARCHAR",
-                        "Value": "beautiful"
-                    }
-                ],
-                "Time": currentTime.toString(),
+                // "MeasureValues": [
+                //     {
+                //         "Name": "x",
+                //         "Type": "DOUBLE",
+                //         "Value": "1.2"
+                //     },
+                //     {
+                //         "Name": "y",
+                //         "Type": "DOUBLE",
+                //         "Value": "1.2"
+                //     },
+                //     {
+                //         "Name": "z",
+                //         "Type": "BIGINT",
+                //         "Value": "1.2"
+                //     },
+                //     {
+                //         "Name": "a",
+                //         "Type": "BIGINT",
+                //         "Value": "1.2"
+                //     },
+                //     {
+                //         "Name": "b",
+                //         "Type": "BIGINT",
+                //         "Value": "1.2"
+                //     },
+                //     {
+                //         "Name": "c",
+                //         "Type": "BIGINT",
+                //         "Value": "1.2"
+                //     },
+                //     {
+                //         "Name": "m",
+                //         "Type": "VARCHAR",
+                //         "Value": "life"
+                //     },
+                //     {
+                //         "Name": "n",
+                //         "Type": "VARCHAR",
+                //         "Value": "is"
+                //     },
+                //     {
+                //         "Name": "p",
+                //         "Type": "VARCHAR",
+                //         "Value": "beautiful"
+                //     }
+                // ],
+                'MeasureName': 'X',
+                'MeasureValue': '1.2',
+                'MeasureValueType': 'DOUBLE',
+
+                "Time": `${currentTime.toString()}`,
                 "TimeUnit": "SECONDS",
                 "Version": 1
             }
