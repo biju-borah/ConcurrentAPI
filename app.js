@@ -109,7 +109,7 @@ app.get("/", (req, res, next) => {
                 'MeasureValue': '1.2',
                 'MeasureValueType': 'DOUBLE',
 
-                "Time": `${currentTime.toString()}`,
+                "Time": `${currentTime}`,
                 "TimeUnit": "SECONDS",
                 "Version": 1
             }
