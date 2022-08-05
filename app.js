@@ -32,21 +32,7 @@ app.get("/", (req, res, next) => {
     const id = String(req.params.id)
     const timeInterval = String(req.params.timeInterval)
     const currentTime = Date.now().toString(); // Unix time in milliseconds
-
-    // const data = {
-    //     'x': 1.2,
-    //     'y': 1.2,
-    //     'z': 1.2,
-    //     'a': 1.2,
-    //     'b': 1.2,
-    //     'c': 1.2,
-    //     'm': 1.2,
-    //     'n': 1.2,
-    //     'p': 1.2,
-    //     'Time': currentTime.toString()
-    // };
-
-    // const records = data;
+    if (id == "undefined") res.status(200).json({ err: "id not defined" });
 
     const params = {
         "DatabaseName": "IoT",
@@ -59,56 +45,56 @@ app.get("/", (req, res, next) => {
                         DimensionValueType: "VARCHAR"
                     },
                 ],
-                // "MeasureValues": [
-                //     {
-                //         "Name": "x",
-                //         "Type": "DOUBLE",
-                //         "Value": "1.2"
-                //     },
-                //     {
-                //         "Name": "y",
-                //         "Type": "DOUBLE",
-                //         "Value": "1.2"
-                //     },
-                //     {
-                //         "Name": "z",
-                //         "Type": "BIGINT",
-                //         "Value": "1.2"
-                //     },
-                //     {
-                //         "Name": "a",
-                //         "Type": "BIGINT",
-                //         "Value": "1.2"
-                //     },
-                //     {
-                //         "Name": "b",
-                //         "Type": "BIGINT",
-                //         "Value": "1.2"
-                //     },
-                //     {
-                //         "Name": "c",
-                //         "Type": "BIGINT",
-                //         "Value": "1.2"
-                //     },
-                //     {
-                //         "Name": "m",
-                //         "Type": "VARCHAR",
-                //         "Value": "life"
-                //     },
-                //     {
-                //         "Name": "n",
-                //         "Type": "VARCHAR",
-                //         "Value": "is"
-                //     },
-                //     {
-                //         "Name": "p",
-                //         "Type": "VARCHAR",
-                //         "Value": "beautiful"
-                //     }
-                // ],
-                'MeasureName': 'X',
-                'MeasureValue': '1.2',
-                'MeasureValueType': 'DOUBLE',
+                "MeasureValues": [
+                    {
+                        "Name": "x",
+                        "Type": "DOUBLE",
+                        "Value": "1.2"
+                    },
+                    {
+                        "Name": "y",
+                        "Type": "DOUBLE",
+                        "Value": "1.2"
+                    },
+                    {
+                        "Name": "z",
+                        "Type": "DOUBLE",
+                        "Value": "1.2"
+                    },
+                    {
+                        "Name": "a",
+                        "Type": "DOUBLE",
+                        "Value": "1.2"
+                    },
+                    {
+                        "Name": "b",
+                        "Type": "DOUBLE",
+                        "Value": "1.2"
+                    },
+                    {
+                        "Name": "c",
+                        "Type": "DOUBLE",
+                        "Value": "1.2"
+                    },
+                    {
+                        "Name": "m",
+                        "Type": "VARCHAR",
+                        "Value": "life"
+                    },
+                    {
+                        "Name": "n",
+                        "Type": "VARCHAR",
+                        "Value": "is"
+                    },
+                    {
+                        "Name": "p",
+                        "Type": "VARCHAR",
+                        "Value": "beautiful"
+                    }
+                ],
+                // 'MeasureName': 'X',
+                // 'MeasureValue': '1.2',
+                // 'MeasureValueType': 'DOUBLE',
 
                 "Time": currentTime,
                 "TimeUnit": "MILLISECONDS",
