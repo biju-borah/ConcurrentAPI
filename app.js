@@ -115,7 +115,7 @@ app.get("/", (req, res, next) => {
                 "Version": 1
             }
         ],
-        "TableName": DATABASE_NAME + "_" + id + "_" + timeInterval
+        "TableName": TABLE_NAME
     };
 
     const request = writeClient.writeRecords(params);
