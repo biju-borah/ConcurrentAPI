@@ -4,7 +4,8 @@ var app = express();
 const AWS = require("aws-sdk");
 AWS.config.update({ region: "us-east-1" });
 var https = require('https');
-const { DATABASE_NAME, TABLE_NAME } = require('./constant')
+const { DATABASE_NAME, TABLE_NAME } = require('./constant');
+const { stringify } = require("querystring");
 
 
 var agent = new https.Agent({
@@ -28,7 +29,7 @@ app.post("/", (req, res, next) => {
     res.json(req.body)
 })
 app.get("/", (req, res, next) => {
-    const id = req.params.id.toString()
+    const id = String(req.params.id)
     const timeInterval = req.params.timeInterval
     const currentTime = Date.now().toString(); // Unix time in milliseconds
 
