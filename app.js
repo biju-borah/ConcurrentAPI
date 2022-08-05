@@ -123,6 +123,7 @@ app.get("/", (req, res, next) => {
     request.promise().then(
         (data) => {
             console.log("Write records successful");
+            res.status(200).json(data)
         },
         (err) => {
             console.log("Error writing records:", err);
@@ -131,9 +132,9 @@ app.get("/", (req, res, next) => {
                 console.log("RejectedRecords: ", responsePayload.RejectedRecords);
                 console.log("Other records were written successfully. ");
             }
+            res.json(err)
         }
     );
-    res.status(200)
 });
 
 app.listen(process.env.PORT, () => {
