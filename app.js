@@ -30,7 +30,7 @@ app.post("/", (req, res, next) => {
 })
 app.get("/", (req, res, next) => {
     const id = String(req.params.id)
-    const timeInterval = req.params.timeInterval
+    const timeInterval = String(req.params.timeInterval)
     const currentTime = Date.now().toString(); // Unix time in milliseconds
 
     // const data = {
@@ -115,7 +115,7 @@ app.get("/", (req, res, next) => {
                 "Version": 1
             }
         ],
-        "TableName": `IoT_${id}_${timeInterval}`
+        "TableName": DATABASE_NAME + "_" + id + "_" + timeInterval
     };
 
     const request = writeClient.writeRecords(params);
