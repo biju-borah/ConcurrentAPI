@@ -108,9 +108,6 @@ app.get("/", (req, res, next) => {
                 'MeasureName': 'X',
                 'MeasureValue': '1.2',
                 'MeasureValueType': 'DOUBLE',
-
-                "Time": `${currentTime}`,
-                "TimeUnit": "SECONDS",
                 "Version": 1
             }
         ],
