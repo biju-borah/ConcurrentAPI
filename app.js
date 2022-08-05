@@ -28,7 +28,7 @@ app.post("/", (req, res, next) => {
     res.json(req.body)
 })
 app.get("/", (req, res, next) => {
-    const id = req.params.id
+    const id = req.params.id.toString()
     const timeInterval = req.params.timeInterval
     const currentTime = Date.now().toString(); // Unix time in milliseconds
 
@@ -54,7 +54,7 @@ app.get("/", (req, res, next) => {
                 Dimensions: [
                     {
                         Name: 'SensorID',
-                        Value: `${id}`,
+                        Value: id,
                         DimensionValueType: "VARCHAR"
                     },
                 ],
@@ -108,6 +108,9 @@ app.get("/", (req, res, next) => {
                 'MeasureName': 'X',
                 'MeasureValue': '1.2',
                 'MeasureValueType': 'DOUBLE',
+
+                "Time": currentTime,
+                "TimeUnit": "MILLISECONDS",
                 "Version": 1
             }
         ],
