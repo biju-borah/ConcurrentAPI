@@ -23,7 +23,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
 app.get('/', (req, res, next) => {
-    res.status(200).json({});
+    res.status(200);
 })
 
 app.post("/write", (req, res, next) => {
