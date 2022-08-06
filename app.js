@@ -23,7 +23,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
 app.get('/', (req, res, next) => {
-    res.status(200);
+    res.status(200).json({});
 })
 
 app.post("/write", (req, res, next) => {
@@ -43,70 +43,72 @@ app.get("/write", (req, res, next) => {
 
     const params = {
         "DatabaseName": DATABASE_NAME,
-        "TableName": TABLE_NAME,
-
-        "CommonAttributes": {
-            'Dimensions': [
-                {
-                    'Name': 'sensorID',
-                    'Value': id,
-                    'DimensionValueType': 'VARCHAR'
-                },
-            ],
-            'Time': currentTime,
-            'TimeUnit': 'MILLISECONDS',
-            // 'MILLISECONDS' | 'SECONDS' | 'MICROSECONDS' | 'NANOSECONDS'
-        },
-
         "Records": [
             {
-                'MeasureName': 'X',
-                'MeasureValue': '1.2',
-                'MeasureValueType': 'DOUBLE',
-            },
-            {
-                'MeasureName': 'X',
-                'MeasureValue': '1.2',
-                'MeasureValueType': 'DOUBLE',
-            },
-            {
-                'MeasureName': 'Z',
-                'MeasureValue': '1.2',
-                'MeasureValueType': 'DOUBLE',
-            },
-            {
-                'MeasureName': 'A',
-                'MeasureValue': '1.2',
-                'MeasureValueType': 'DOUBLE',
-            },
-            {
-                'MeasureName': 'B',
-                'MeasureValue': '1.2',
-                'MeasureValueType': 'DOUBLE',
-            },
-            {
-                'MeasureName': 'C',
-                'MeasureValue': 'True',
-                'MeasureValueType': 'BOOLEAN',
-            },
-            {
-                'MeasureName': 'M',
-                'MeasureValue': 'life',
-                'MeasureValueType': 'VARCHAR',
-            },
-            {
-                'MeasureName': 'N',
-                'MeasureValue': 'is',
-                'MeasureValueType': 'VARCHAR',
-            },
-            {
-                'MeasureName': 'P',
-                'MeasureValue': 'beautiful',
-                'MeasureValueType': 'VARCHAR',
+                Dimensions: [
+                    {
+                        Name: 'SensorID',
+                        Value: id,
+                        DimensionValueType: "VARCHAR"
+                    },
+                ],
+
+                'MeasureName': 'data',
+                "MeasureValues": [
+                    {
+                        "Name": "x",
+                        "Type": "DOUBLE",
+                        "Value": "1.2"
+                    },
+                    {
+                        "Name": "y",
+                        "Type": "DOUBLE",
+                        "Value": "1.2"
+                    },
+                    {
+                        "Name": "z",
+                        "Type": "DOUBLE",
+                        "Value": "1.2"
+                    },
+                    {
+                        "Name": "a",
+                        "Type": "DOUBLE",
+                        "Value": "1.2"
+                    },
+                    {
+                        "Name": "b",
+                        "Type": "DOUBLE",
+                        "Value": "1.2"
+                    },
+                    {
+                        "Name": "c",
+                        "Type": "BOOLEAN",
+                        "Value": "True"
+                    },
+                    {
+                        "Name": "m",
+                        "Type": "VARCHAR",
+                        "Value": "life"
+                    },
+                    {
+                        "Name": "n",
+                        "Type": "VARCHAR",
+                        "Value": "is"
+                    },
+                    {
+                        "Name": "p",
+                        "Type": "VARCHAR",
+                        "Value": "beautiful"
+                    }
+                ],
+                'MeasureValueType': 'MULTI',
+
+                "Time": currentTime,
+                "TimeUnit": "MILLISECONDS",
+                "Version": 1
             }
         ],
-        // MeasureValue desired types : 'DOUBLE'|'BIGINT'|'VARCHAR'|'BOOLEAN'|'TIMESTAMP'|'MULTI'
-
+        "TableName": TABLE_NAME
     };
 
     const request = writeClient.writeRecords(params);
