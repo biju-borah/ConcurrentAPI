@@ -22,15 +22,9 @@ writeClient = new AWS.TimestreamWrite({
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
-app.get('/', (req, res, next) => {
-    res.status(200);
-    next();
-})
-
 app.post("/write", (req, res, next) => {
     console.log(req.body);
     res.json(req.body);
-    next();
 })
 
 app.get("/write", (req, res, next) => {
@@ -130,8 +124,6 @@ app.get("/write", (req, res, next) => {
             res.json(err)
         }
     );
-
-    next();
 });
 
 app.listen(process.env.PORT, () => {
