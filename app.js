@@ -82,7 +82,7 @@ app.get("/write", (req, res, next) => {
                     {
                         "Name": "c",
                         "Type": "BOOLEAN",
-                        "Value": "1.2"
+                        "Value": "True"
                     },
                     {
                         "Name": "m",
