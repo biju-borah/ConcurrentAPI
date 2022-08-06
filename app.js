@@ -5,8 +5,6 @@ const AWS = require("aws-sdk");
 AWS.config.update({ region: "us-east-1" });
 var https = require('https');
 const { DATABASE_NAME, TABLE_NAME } = require('./constant');
-const { stringify } = require("querystring");
-
 
 var agent = new https.Agent({
     maxSockets: 5000
@@ -24,18 +22,26 @@ writeClient = new AWS.TimestreamWrite({
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
-app.post("/", (req, res, next) => {
-    console.log(req.body)
-    res.json(req.body)
+app.get('/', (req, res, next) => {
+    res.status(200);
 })
-app.get("/", (req, res, next) => {
+
+app.post("/write", (req, res, next) => {
+    console.log(req.body);
+    res.json(req.body);
+})
+
+app.get("/write", (req, res, next) => {
+    if (req.query.id === undefined) {
+        res.status(400).end();
+    }
+
     const id = String(req.query.id)
     const timeInterval = String(req.query.timeInterval)
     const currentTime = Date.now().toString(); // Unix time in milliseconds
-    if (id == "undefined") res.status(200).json({ err: "id not defined" });
 
     const params = {
-        "DatabaseName": "IoT",
+        "DatabaseName": DATABASE_NAME,
         "Records": [
             {
                 Dimensions: [
@@ -75,7 +81,7 @@ app.get("/", (req, res, next) => {
                     },
                     {
                         "Name": "c",
-                        "Type": "DOUBLE",
+                        "Type": "BOOLEAN",
                         "Value": "1.2"
                     },
                     {
@@ -124,6 +130,6 @@ app.get("/", (req, res, next) => {
 });
 
 app.listen(process.env.PORT, () => {
-    console.log("Server running......");
+    console.log("Server running");
 });
 
