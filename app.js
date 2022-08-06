@@ -24,16 +24,19 @@ app.use(bodyParser.json());
 
 app.get('/', (req, res, next) => {
     res.status(200);
+    next();
 })
 
 app.post("/write", (req, res, next) => {
     console.log(req.body);
     res.json(req.body);
+    next();
 })
 
 app.get("/write", (req, res, next) => {
     if (req.query.id === undefined) {
         res.status(400).end();
+        return next();
     }
 
     const id = String(req.query.id)
@@ -127,6 +130,8 @@ app.get("/write", (req, res, next) => {
             res.json(err)
         }
     );
+
+    next();
 });
 
 app.listen(process.env.PORT, () => {
