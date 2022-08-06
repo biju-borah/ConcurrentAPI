@@ -22,6 +22,10 @@ writeClient = new AWS.TimestreamWrite({
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
+app.get('/', (req, res, next) => {
+    res.status(200);
+})
+
 app.post("/write", (req, res, next) => {
     console.log(req.body);
     res.json(req.body);
@@ -29,7 +33,7 @@ app.post("/write", (req, res, next) => {
 
 app.get("/write", (req, res, next) => {
     if (req.query.id === undefined) {
-        res.status(400).end();
+        res.status(200).json({ err: "ID is undefined" });
         return next();
     }
 
