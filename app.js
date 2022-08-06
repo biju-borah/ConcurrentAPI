@@ -28,10 +28,10 @@ app.get('/', (req, res, next) => {
     res.status(200).json({});
 })
 
-app.post("/write", (req, res, next) => {
-    console.log(req.body);
-    res.json(req.body);
-})
+// app.post("/write", (req, res, next) => {
+//     console.log(req.body);
+//     res.json(req.body);
+// })
 
 app.get("/write", (req, res, next) => {
     if (req.query.api_key !== "tPmAT5Ab3j7F9") {
@@ -139,7 +139,7 @@ app.post("/write", (req, res, next) => {
         return next();
     }
 
-    if (req.query.api_key !== "tPmAT5Ab3j7F9") {
+    if (req.body.api_key !== "tPmAT5Ab3j7F9") {
         res.status(401).json({ err: "Invalid Api Key" });
         return next();
     }
@@ -166,7 +166,7 @@ app.post("/write", (req, res, next) => {
                     {
                         "Name": "x",
                         "Type": "DOUBLE",
-                        "Value": "1.2"
+                        "Value": x
                     },
                     {
                         "Name": "y",
