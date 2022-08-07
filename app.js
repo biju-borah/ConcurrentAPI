@@ -43,7 +43,6 @@ app.get('/fetch', (req, res, next) => {
     try {
         response = queryClient.query(params = {
             QueryString: query,
-            NextToken: nextToken,
         }).promise();
     } catch (err) {
         console.error("Error while querying:", err);
