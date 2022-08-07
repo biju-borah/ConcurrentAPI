@@ -41,7 +41,7 @@ app.get('/fetch', (req, res, next) => {
 
     let response;
     try {
-        response = await queryClient.query(params = {
+        response = queryClient.query(params = {
             QueryString: query,
             NextToken: nextToken,
         }).promise();
