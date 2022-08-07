@@ -28,10 +28,33 @@ app.get('/', (req, res, next) => {
     res.status(200).json({});
 })
 
-// app.post("/write", (req, res, next) => {
-//     console.log(req.body);
-//     res.json(req.body);
-// })
+app.get('/fetch', (req, res, next) => {
+    if (req.query.api_key !== "tPmAT5Ab3j7F9") {
+        res.status(401).json({ err: "Invalid API key" })
+        return next();
+    }
+
+    const sensor = String(req.query.sensor);
+    const timeInterval = Number(req.query.timeInterval);
+
+    query = `select * from ${DATABASE_NAME}.${TABLE_NAME} where sensor = '${sensor}' order by time desc limit 30`;
+
+    let response;
+    try {
+        response = await queryClient.query(params = {
+            QueryString: query,
+            NextToken: nextToken,
+        }).promise();
+    } catch (err) {
+        console.error("Error while querying:", err);
+        throw err;
+    }
+
+    response.then((data) => res.status(200).json(data), (err) => {
+        console.error("Error while querying:", err);
+        res.json(err)
+    });
+})
 
 app.post("/write", (req, res, next) => {
     if (!Object.keys(req.body).length || !Object.keys(req.body.data).length) {
@@ -51,7 +74,6 @@ app.post("/write", (req, res, next) => {
 
     const id = String(req.body.sensor)
     const data = req.body.data;
-    const timeInterval = String(req.body.timeInterval)
     const currentTime = Date.now().toString(); // Unix time in milliseconds
 
     const params = {
