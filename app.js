@@ -5,6 +5,8 @@ const AWS = require("aws-sdk");
 AWS.config.update({ region: "us-east-1" });
 var https = require('https');
 const { DATABASE_NAME, TABLE_NAME } = require('./constant');
+const { json } = require("body-parser");
+const { serialize } = require("v8");
 
 var agent = new https.Agent({
     maxSockets: 5000
@@ -49,7 +51,27 @@ app.get('/fetch', (req, res, next) => {
         throw err;
     }
 
-    response.then((data) => res.status(200).json(data), (err) => {
+    response.then((data) => {
+        records = data.Rows;
+        colinfo = data.ColumnInfo;
+        let datas = {"data":[]};
+
+        records.forEach(record => {
+            const values = record.Data;
+            let datapoint = {};
+            for (let i = 0; i < values.length; i++) {
+                let key = colinfo[i].Name;
+                let value = values[i].ScalarValue;
+                if(colinfo[i].Type.ScalarType === "DOUBLE" || colinfo[i].Type.ScalarType === "BIGINT") value = Number(value);
+                if(colinfo[i].Type.ScalarType === "BOOLEAN") value = Boolean(value);
+                datapoint[key] = value;
+            }
+            datas.data.push(datapoint);
+        });
+
+        res.status(200).json(datas);
+
+    }, (err) => {
         console.error("Error while querying:", err);
         res.json(err)
     });
@@ -57,12 +79,12 @@ app.get('/fetch', (req, res, next) => {
 
 app.post("/write", (req, res, next) => {
     if (!Object.keys(req.body).length || !Object.keys(req.body.data).length) {
-        res.status(200).json({ err: "Bad request" });
+        res.status(400).json({ err: "Bad request" });
         return next();
     }
 
     if (!req.body.hasOwnProperty("sensor") || req.body.sensor === "" || req.body.sensor === undefined) {
-        res.status(200).json({ err: "Bad request" });
+        res.status(400).json({ err: "Bad request" });
         return next();
     }
 
