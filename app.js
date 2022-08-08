@@ -49,7 +49,7 @@ app.get('/fetch', (req, res, next) => {
         throw err;
     }
 
-    response.then((data) => res.status(200).json(data), (err) => {
+    response.then((data) => res.status(200).json(data.Rows), (err) => {
         console.error("Error while querying:", err);
         res.json(err)
     });
