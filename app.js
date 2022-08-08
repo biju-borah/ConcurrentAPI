@@ -52,9 +52,15 @@ app.get('/fetch', (req, res, next) => {
     }
 
     response.then((data) => {
+        var lastEntryTime = new Date(data.Rows[0].Data[2].ScalarValue)
+        if ((Date.now() - lastEntryTime.getTime()) * 0.001 < 60) {
+            res.status(200).json({ err: "TimeStamp of last entry doesn't exceed 60s" });
+            return next();
+        }
+
         records = data.Rows;
         colinfo = data.ColumnInfo;
-        let datas = {"data":[]};
+        let datas = { "data": [] };
 
         records.forEach(record => {
             const values = record.Data;
@@ -62,8 +68,8 @@ app.get('/fetch', (req, res, next) => {
             for (let i = 0; i < values.length; i++) {
                 let key = colinfo[i].Name;
                 let value = values[i].ScalarValue;
-                if(colinfo[i].Type.ScalarType === "DOUBLE" || colinfo[i].Type.ScalarType === "BIGINT") value = Number(value);
-                if(colinfo[i].Type.ScalarType === "BOOLEAN") value = Boolean(value);
+                if (colinfo[i].Type.ScalarType === "DOUBLE" || colinfo[i].Type.ScalarType === "BIGINT") value = Number(value);
+                if (colinfo[i].Type.ScalarType === "BOOLEAN") value = Boolean(value);
                 datapoint[key] = value;
             }
             datas.data.push(datapoint);
