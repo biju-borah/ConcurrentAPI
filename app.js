@@ -37,15 +37,15 @@ app.get('/fetch', (req, res, next) => {
     }
 
     const sensor = String(req.query.sensor);
-    // const timeInterval = Number(req.query.timeInterval);
-    // var queryLength = 30
-    // if (timeInterval == 60) {
-    //     queryLength = 31
-    // }
-    // else if (timeInterval == 1800) {
-    //     queryLength = 89
-    // }
-    query = `select * from ${DATABASE_NAME}.${TABLE_NAME} where sensor = '${sensor}' order by time desc limit 30`;
+    const timeInterval = Number(req.query.timeInterval);
+    var queryLength = 30
+    if (timeInterval == 60) {
+        queryLength = 31
+    }
+    else if (timeInterval == 1800) {
+        queryLength = 89
+    }
+    query = `select * from ${DATABASE_NAME}.${TABLE_NAME} where sensor = '${sensor}' order by time desc limit ${queryLength}`;
     // select * from IoT.IoT_30 where sensor = '1' order by time desc limit 31
     let response;
     try {
