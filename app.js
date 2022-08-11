@@ -73,7 +73,7 @@ app.get('/fetch', (req, res, next) => {
                 if (colinfo[i].Type.ScalarType === "BOOLEAN") value = Boolean(value);
                 datapoint[key] = value;
             }
-            datas.data.reverse()
+            // datas.data.reverse()
             datas.data.push(datapoint);
         });
         res.status(200).json(datas)
