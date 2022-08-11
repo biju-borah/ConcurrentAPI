@@ -43,7 +43,7 @@ app.get('/fetch', (req, res, next) => {
         queryLength = 31
     }
 
-    query = `select * from ${DATABASE_NAME}.${TABLE_NAME} where sensor = '${sensor}' order by time desc limit ${queryLengths}`;
+    query = `select * from ${DATABASE_NAME}.${TABLE_NAME} where sensor = '${sensor}' order by time desc limit ${queryLength}`;
     // query = `select * from ${DATABASE_NAME}.${TABLE_NAME} where sensor = '${sensor}' order by time limit 30`;
 
     let response;
