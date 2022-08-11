@@ -39,8 +39,9 @@ app.get('/fetch', (req, res, next) => {
     const sensor = String(req.query.sensor);
     const timeInterval = Number(req.query.timeInterval);
 
-
+    query = `select * from ${DATABASE_NAME}.${TABLE_NAME} where sensor = '${sensor}' order by time desc limit 30`;
     query = `select * from ${DATABASE_NAME}.${TABLE_NAME} where sensor = '${sensor}' order by time limit 30`;
+
     let response;
     try {
         response = queryClient.query(params = {
@@ -52,6 +53,7 @@ app.get('/fetch', (req, res, next) => {
     }
 
     response.then((data) => {
+        var lastEntryTime = new Date(data.Rows[0].Data[2].ScalarValue)
         var lastEntryTime = new Date(data.Rows[data.Rows.length() - 1].Data[2].ScalarValue)
         var curTime = new Date(Date.now())
         if ((curTime.getTime() - lastEntryTime.getTime()) * 0.001 > 60) {
@@ -73,10 +75,10 @@ app.get('/fetch', (req, res, next) => {
                 if (colinfo[i].Type.ScalarType === "BOOLEAN") value = Boolean(value);
                 datapoint[key] = value;
             }
-            // datas.data.reverse()
             datas.data.push(datapoint);
         });
-        res.status(200).json(datas)
+
+        res.status(200).json(datas);
 
     }, (err) => {
         console.error("Error while querying:", err);
@@ -196,4 +198,3 @@ app.post("/write", (req, res, next) => {
 app.listen(process.env.PORT, () => {
     console.log("Server running");
 });
-
