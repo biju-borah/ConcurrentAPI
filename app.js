@@ -39,6 +39,9 @@ app.get('/fetch', (req, res, next) => {
     const sensor = String(req.query.sensor);
     var timeInterval = Number(req.query.timeInterval);
     let queryLength = 30
+    if (timeInterval == 60) {
+        queryLength = 31
+    }
 
     query = `select * from ${DATABASE_NAME}.${TABLE_NAME} where sensor = '${sensor}' order by time desc limit ${queryLengths}`;
     // query = `select * from ${DATABASE_NAME}.${TABLE_NAME} where sensor = '${sensor}' order by time limit 30`;
@@ -79,7 +82,21 @@ app.get('/fetch', (req, res, next) => {
             datas.data.push(datapoint);
         });
         datas.data.reverse()
-        res.status(200).json(datas);
+        if (timeInterval == 60) {
+            let datas_60 = { "data": [] }
+
+            for (let i = 1; i < datas.data.length; i++) {
+                let data = {}
+                data["a"] = (Number(datas.data[i].a) + Number(datas.data[i - 1].a)) / 2
+                data["b"] = (Number(datas.data[i].b) + Number(datas.data[i - 1].b)) / 2
+                data["x"] = (Number(datas.data[i].x) + Number(datas.data[i - 1].x)) / 2
+                data["y"] = (Number(datas.data[i].y) + Number(datas.data[i - 1].y)) / 2
+                data["z"] = (Number(datas.data[i].z) + Number(datas.data[i - 1].z)) / 2
+                datas_60.data.push(data)
+            }
+            res.status(200).json(datas_60);
+        }
+        else res.status(200).json(datas);
 
     }, (err) => {
         console.error("Error while querying:", err);
