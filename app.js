@@ -110,7 +110,7 @@ app.get('/fetch', (req, res, next) => {
                 let y = 0
                 let z = 0
                 for (let j = i; j < datas.data.length; j++) {
-                    if (j - i + 1 == 60) {
+                    if (j - i == 60) {
                         break
                     }
                     a += Number(datas.data[i].a)
