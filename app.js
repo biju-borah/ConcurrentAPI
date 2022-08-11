@@ -42,11 +42,11 @@ app.get('/fetch', (req, res, next) => {
     if (timeInterval == 60) {
         queryLength = 31
     }
-    else if (timeInterval == 900) {
+    else if (timeInterval == 1800) {
         queryLength = 89
     }
-    query = `select * from ${DATABASE_NAME}.${TABLE_NAME} where sensor = '${sensor}' order by time desc limit 31`;
-
+    query = `select * from ${DATABASE_NAME}.${TABLE_NAME} where sensor = '${sensor}' order by time desc limit ${queryLength}`;
+    // select * from IoT.IoT_30 where sensor = '1' order by time desc limit 31
     let response;
     try {
         response = queryClient.query(params = {
