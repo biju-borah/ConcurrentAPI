@@ -39,7 +39,7 @@ app.get('/fetch', (req, res, next) => {
     const sensor = String(req.query.sensor);
     const timeInterval = Number(req.query.timeInterval);
 
-    query = `select * from ${DATABASE_NAME}.${TABLE_NAME} where sensor = '${sensor}' order by time limit '${timeInterval}`;
+    query = `select * from ${DATABASE_NAME}.${TABLE_NAME} where sensor = '${sensor}' order by time desc limit '${timeInterval}`;
 
     let response;
     try {
@@ -73,6 +73,7 @@ app.get('/fetch', (req, res, next) => {
                 if (colinfo[i].Type.ScalarType === "BOOLEAN") value = Boolean(value);
                 datapoint[key] = value;
             }
+            datas.data.reverse()
             datas.data.push(datapoint);
         });
         if (timeInterval == 60) {
