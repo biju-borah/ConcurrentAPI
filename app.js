@@ -37,15 +37,15 @@ app.get('/fetch', (req, res, next) => {
     }
 
     const sensor = String(req.query.sensor);
-    const timeInterval = Number(req.query.timeInterval);
-    var queryLength = 30
-    if (timeInterval == 60) {
-        queryLength = 31
-    }
-    else if (timeInterval == 1800) {
-        queryLength = 89
-    }
-    query = `select * from ${DATABASE_NAME}.${TABLE_NAME} where sensor = '${sensor}' order by time desc limit ${queryLength}`;
+    // const timeInterval = Number(req.query.timeInterval);
+    // var queryLength = 30
+    // if (timeInterval == 60) {
+    //     queryLength = 31
+    // }
+    // else if (timeInterval == 1800) {
+    //     queryLength = 89
+    // }
+    query = `select * from ${DATABASE_NAME}.${TABLE_NAME} where sensor = '${sensor}' order by time desc limit 30`;
     // select * from IoT.IoT_30 where sensor = '1' order by time desc limit 31
     let response;
     try {
@@ -82,6 +82,9 @@ app.get('/fetch', (req, res, next) => {
             datas.data.reverse()
             datas.data.push(datapoint);
         });
+        if (timeInterval == 30) {
+            res.status(200).json(datas);
+        }
         if (timeInterval == 60) {
             let datas_60 = { "data": [] }
 
@@ -95,7 +98,9 @@ app.get('/fetch', (req, res, next) => {
                 datas_60.data.push(data)
             }
             res.status(200).json(datas_60);
-        } else if (timeInterval == 900) {
+
+        } else if (timeInterval == 1800) {
+            let datas_1800 = { "data": [] }
             for (let i = 0; i < 30; i++) {
                 let data = {}
                 let a = 0
@@ -118,10 +123,10 @@ app.get('/fetch', (req, res, next) => {
                 data["x"] = x / 60
                 data["y"] = y / 60
                 data["z"] = z / 60
-                datas_60.data.push(data)
+                datas_1800.data.push(data)
             }
+            res.status(200).json(datas_1800);
         }
-        else res.status(200).json(datas);
 
     }, (err) => {
         console.error("Error while querying:", err);
