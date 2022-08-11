@@ -46,7 +46,6 @@ app.get('/fetch', (req, res, next) => {
         queryLength = 89
     }
     query = `select * from ${DATABASE_NAME}.${TABLE_NAME} where sensor = '${sensor}' order by time desc limit ${queryLength}`;
-    // select * from IoT.IoT_30 where sensor = '1' order by time desc limit 31
     let response;
     try {
         response = queryClient.query(params = {
@@ -82,10 +81,11 @@ app.get('/fetch', (req, res, next) => {
             datas.data.reverse()
             datas.data.push(datapoint);
         });
+
         if (timeInterval == 30) {
             res.status(200).json(datas);
         }
-        if (timeInterval == 60) {
+        else if (timeInterval == 60) {
             let datas_60 = { "data": [] }
 
             for (let i = 1; i < datas.data.length; i++) {
@@ -126,6 +126,9 @@ app.get('/fetch', (req, res, next) => {
                 datas_1800.data.push(data)
             }
             res.status(200).json(datas_1800);
+
+        } else {
+            res.sendStatus(200).json({ "error": "Invalid timeStamp" })
         }
 
     }, (err) => {
