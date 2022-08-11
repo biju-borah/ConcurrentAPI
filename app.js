@@ -45,7 +45,7 @@ app.get('/fetch', (req, res, next) => {
     else if (timeInterval == 900) {
         queryLength = 89
     }
-    query = `select * from ${DATABASE_NAME}.${TABLE_NAME} where sensor = '${sensor}' order by time desc limit '${queryLength}'`;
+    query = `select * from ${DATABASE_NAME}.${TABLE_NAME} where sensor = '${sensor}' order by time desc limit ${queryLength}`;
 
     let response;
     try {
