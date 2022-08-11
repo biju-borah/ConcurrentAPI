@@ -38,14 +38,9 @@ app.get('/fetch', (req, res, next) => {
 
     const sensor = String(req.query.sensor);
     const timeInterval = Number(req.query.timeInterval);
-    var queryLength = 30
-    if (timeInterval == 60) {
-        queryLength = 31
-    }
-    else if (timeInterval == 1800) {
-        queryLength = 89
-    }
-    query = `select * from ${DATABASE_NAME}.${TABLE_NAME} where sensor = '${sensor}' order by time desc limit ${queryLength}`;
+
+
+    query = `select * from ${DATABASE_NAME}.${TABLE_NAME} where sensor = '${sensor}' order by time limit 30`;
     let response;
     try {
         response = queryClient.query(params = {
@@ -81,55 +76,7 @@ app.get('/fetch', (req, res, next) => {
             datas.data.reverse()
             datas.data.push(datapoint);
         });
-
-        if (timeInterval == 30) {
-            res.status(200).json(datas);
-        }
-        else if (timeInterval == 60) {
-            let datas_60 = { "data": [] }
-
-            for (let i = 1; i < datas.data.length; i++) {
-                let data = {}
-                data["a"] = (Number(datas.data[i].a) + Number(datas.data[i - 1].a)) / 2
-                data["b"] = (Number(datas.data[i].b) + Number(datas.data[i - 1].b)) / 2
-                data["x"] = (Number(datas.data[i].x) + Number(datas.data[i - 1].x)) / 2
-                data["y"] = (Number(datas.data[i].y) + Number(datas.data[i - 1].y)) / 2
-                data["z"] = (Number(datas.data[i].z) + Number(datas.data[i - 1].z)) / 2
-                datas_60.data.push(data)
-            }
-            res.status(200).json(datas_60);
-
-        } else if (timeInterval == 1800) {
-            let datas_1800 = { "data": [] }
-            for (let i = 0; i < 30; i++) {
-                let data = {}
-                let a = 0
-                let b = 0
-                let x = 0
-                let y = 0
-                let z = 0
-                for (let j = i; j < datas.data.length; j++) {
-                    if (j - i + 1 == 60) {
-                        break
-                    }
-                    a += Number(datas.data[i].a)
-                    b += Number(datas.data[i].a)
-                    x += Number(datas.data[i].a)
-                    y += Number(datas.data[i].a)
-                    z += Number(datas.data[i].a)
-                }
-                data["a"] = a / 60
-                data["b"] = b / 60
-                data["x"] = x / 60
-                data["y"] = y / 60
-                data["z"] = z / 60
-                datas_1800.data.push(data)
-            }
-            res.status(200).json(datas_1800);
-
-        } else {
-            res.sendStatus(200).json({ "error": "Invalid timeStamp" })
-        }
+        res.status(200).json(datas)
 
     }, (err) => {
         console.error("Error while querying:", err);
