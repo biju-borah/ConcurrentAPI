@@ -5,7 +5,7 @@ const AWS = require("aws-sdk");
 AWS.config.update({ region: "us-east-1" });
 var https = require('https');
 const { DATABASE_NAME, TABLE_NAME } = require('./constant');
-const cors = rquire('cors');
+const cors = require('cors');
 
 var agent = new https.Agent({
     maxSockets: 5000
