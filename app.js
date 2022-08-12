@@ -5,12 +5,12 @@ const AWS = require("aws-sdk");
 AWS.config.update({ region: "us-east-1" });
 var https = require('https');
 const { DATABASE_NAME, TABLE_NAME } = require('./constant');
-const { json } = require("body-parser");
-const { serialize } = require("v8");
+const cors = rquire('cors');
 
 var agent = new https.Agent({
     maxSockets: 5000
 });
+
 writeClient = new AWS.TimestreamWrite({
     accessKeyId: process.env.AWS_ACCESS_KEY_ID,
     secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
@@ -25,6 +25,7 @@ queryClient = new AWS.TimestreamQuery();
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
+app.use(cors());
 
 app.get('/', (req, res, next) => {
     res.status(200).json({});
