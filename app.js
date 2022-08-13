@@ -32,7 +32,7 @@ app.get('/', (req, res, next) => {
 })
 
 app.get('/fetch', (req, res, next) => {
-    if (req.query.api_key !== "tPmAT5Ab3j7F9") {
+    if (req.query.api_key !== process.env.API_KEY) {
         res.status(401).json({ err: "Invalid API key" })
         return next();
     }
@@ -48,7 +48,6 @@ app.get('/fetch', (req, res, next) => {
     }
 
     query = `select * from ${DATABASE_NAME}.${TABLE_NAME} where sensor = '${sensor}' order by time desc limit ${queryLength}`;
-    // query = `select * from ${DATABASE_NAME}.${TABLE_NAME} where sensor = '${sensor}' order by time limit 30`;
 
     let response;
     try {
