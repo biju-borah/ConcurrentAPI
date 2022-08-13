@@ -5,12 +5,12 @@ const AWS = require("aws-sdk");
 AWS.config.update({ region: "us-east-1" });
 var https = require('https');
 const { DATABASE_NAME, TABLE_NAME } = require('./constant');
-const { json } = require("body-parser");
-const { serialize } = require("v8");
+const cors = require('cors');
 
 var agent = new https.Agent({
     maxSockets: 5000
 });
+
 writeClient = new AWS.TimestreamWrite({
     accessKeyId: process.env.AWS_ACCESS_KEY_ID,
     secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
@@ -25,13 +25,14 @@ queryClient = new AWS.TimestreamQuery();
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
+app.use(cors());
 
 app.get('/', (req, res, next) => {
     res.status(200).json({});
 })
 
 app.get('/fetch', (req, res, next) => {
-    if (req.query.api_key !== "tPmAT5Ab3j7F9") {
+    if (req.query.api_key !== process.env.API_KEY) {
         res.status(401).json({ err: "Invalid API key" })
         return next();
     }
@@ -47,7 +48,6 @@ app.get('/fetch', (req, res, next) => {
     }
 
     query = `select * from ${DATABASE_NAME}.${TABLE_NAME} where sensor = '${sensor}' order by time desc limit ${queryLength}`;
-    // query = `select * from ${DATABASE_NAME}.${TABLE_NAME} where sensor = '${sensor}' order by time limit 30`;
 
     let response;
     try {
@@ -61,7 +61,6 @@ app.get('/fetch', (req, res, next) => {
 
     response.then((data) => {
         //var lastEntryTime = new Date(data.Rows[0].Data[2].ScalarValue)
-        // var lastEntryTime = new Date(data.Rows[data.Rows.length() - 1].Data[2].ScalarValue)
         // var curTime = new Date(Date.now())
         // if ((curTime.getTime() - lastEntryTime.getTime()) * 0.001 > 60) {
         //     res.status(200).json({ err: "No new data has been entered for the last 60 secs" });
