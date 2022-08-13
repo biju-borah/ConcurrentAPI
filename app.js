@@ -60,13 +60,13 @@ app.get('/fetch', (req, res, next) => {
     }
 
     response.then((data) => {
-        var lastEntryTime = new Date(data.Rows[0].Data[2].ScalarValue)
+        //var lastEntryTime = new Date(data.Rows[0].Data[2].ScalarValue)
         // var lastEntryTime = new Date(data.Rows[data.Rows.length() - 1].Data[2].ScalarValue)
-        var curTime = new Date(Date.now())
-        if ((curTime.getTime() - lastEntryTime.getTime()) * 0.001 > 60) {
-            res.status(200).json({ err: "No new data has been entered for the last 60 secs" });
-            return next();
-        }
+        //var curTime = new Date(Date.now())
+        //if ((curTime.getTime() - lastEntryTime.getTime()) * 0.001 > 60) {
+        //   res.status(200).json({ err: "No new data has been entered for the last 60 secs" });
+        //    return next();
+        //}
 
         records = data.Rows;
         colinfo = data.ColumnInfo;
