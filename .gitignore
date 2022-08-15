@@ -1,2 +1,4 @@
 node_modules
 test.js
+sample.json
+.gitignore
