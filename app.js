@@ -83,7 +83,9 @@ app.get('/fetch', (req, res, next) => {
             }
             datas.data.push(datapoint);
         });
+
         datas.data.reverse()
+
         if (timeInterval == 60) {
             let datas_60 = { "data": [] }
 
@@ -94,10 +96,12 @@ app.get('/fetch', (req, res, next) => {
                 data["x"] = (Number(datas.data[i].x) + Number(datas.data[i - 1].x)) / 2
                 data["y"] = (Number(datas.data[i].y) + Number(datas.data[i - 1].y)) / 2
                 data["z"] = (Number(datas.data[i].z) + Number(datas.data[i - 1].z)) / 2
+                data["time"] = datas.data[i-1].time;
                 datas_60.data.push(data)
             }
             res.status(200).json(datas_60);
         }
+
         else if (timeInterval == 1800) {
             let datas_1800 = { "data": [] }
 
@@ -123,6 +127,7 @@ app.get('/fetch', (req, res, next) => {
                 data["x"] = x / 60
                 data["y"] = y / 60
                 data["z"] = z / 60
+                data["time"] = datas.data[i].time
                 datas_1800.data.push(data)
             }
             res.status(200).json(datas_1800);
