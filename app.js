@@ -43,8 +43,8 @@ app.get('/fetch', (req, res, next) => {
     if (timeInterval == 60) {
         queryLength = 31
     }
-    else if (timeInterval == 1800) {
-        queryLength = 89
+    else if (timeInterval > 60) {
+        queryLength = (timeInterval / 60) * 2 + 29
     }
 
     query = `select * from ${DATABASE_NAME}.${TABLE_NAME} where sensor = '${sensor}' order by time desc limit ${queryLength}`;
@@ -63,7 +63,7 @@ app.get('/fetch', (req, res, next) => {
         var lastEntryTime = new Date(data.Rows[0].Data[2].ScalarValue)
         var curTime = new Date(Date.now())
         if ((curTime.getTime() - lastEntryTime.getTime()) * 0.001 > timeInterval * 2) {
-            res.status(200).json({ err:  `No new data has been entered for the last ${timeInterval*2} secs ` });
+            res.status(200).json({ err: `No new data has been entered for the last ${timeInterval * 2} secs ` });
             return next();
         }
 
@@ -96,13 +96,13 @@ app.get('/fetch', (req, res, next) => {
                 data["x"] = (Number(datas.data[i].x) + Number(datas.data[i - 1].x)) / 2
                 data["y"] = (Number(datas.data[i].y) + Number(datas.data[i - 1].y)) / 2
                 data["z"] = (Number(datas.data[i].z) + Number(datas.data[i - 1].z)) / 2
-                data["time"] = datas.data[i-1].time;
+                data["time"] = datas.data[i - 1].time;
                 datas_60.data.push(data)
             }
             res.status(200).json(datas_60);
         }
 
-        else if (timeInterval == 1800) {
+        else if (timeInterval > 60) {
             let datas_1800 = { "data": [] }
 
             for (let i = 0; i < 30; i++) {
@@ -113,7 +113,7 @@ app.get('/fetch', (req, res, next) => {
                 let y = 0
                 let z = 0
                 for (let j = i; j < datas.data.length; j++) {
-                    if (j - i == 60) {
+                    if (j - i == (timeInterval / 60) * 2) {
                         break
                     }
                     a += Number(datas.data[i].a)
