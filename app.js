@@ -79,6 +79,14 @@ app.get('/fetch', (req, res, next) => {
                 let value = values[i].ScalarValue;
                 if (colinfo[i].Type.ScalarType === "DOUBLE" || colinfo[i].Type.ScalarType === "BIGINT") value = Number(value);
                 if (colinfo[i].Type.ScalarType === "BOOLEAN") value = Boolean(value);
+                if (colinfo[i].Type.ScalarType === "TIMESTAMP") {
+                    var dateUTC = new Date(value);
+                    var dateUTC = dateUTC.getTime()
+                    var dateIST = new Date(dateUTC);
+                    dateIST.setHours(dateIST.getHours() + 5);
+                    dateIST.setMinutes(dateIST.getMinutes() + 30);
+                    value = dateIST.toLocaleString(undefined, { timeZone: 'Asia/Kolkata' });
+                }
                 datapoint[key] = value;
             }
             datas.data.push(datapoint);
@@ -134,7 +142,14 @@ app.get('/fetch', (req, res, next) => {
                 data["x"] = x / 60
                 data["y"] = y / 60
                 data["z"] = z / 60
-                data["time"] = datas.data[i].time
+
+                var dateUTC = new Date(datas.data[i - 1].time);
+                var dateUTC = dateUTC.getTime()
+                var dateIST = new Date(dateUTC);
+                dateIST.setHours(dateIST.getHours() + 5);
+                dateIST.setMinutes(dateIST.getMinutes() + 30);
+                data["time"] = dateIST.toLocaleString(undefined, { timeZone: 'Asia/Kolkata' });
+
                 datas_1800.data.push(data)
             }
             res.status(200).json(datas_1800);
