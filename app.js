@@ -83,8 +83,8 @@ app.get('/fetch', (req, res, next) => {
                     var dateUTC = new Date(value);
                     var dateUTC = dateUTC.getTime()
                     var dateIST = new Date(dateUTC);
-                    dateIST.setHours(dateIST.getHours() + 5);
-                    dateIST.setMinutes(dateIST.getMinutes() + 30);
+                    // dateIST.setHours(dateIST.getHours() + 5);
+                    // dateIST.setMinutes(dateIST.getMinutes() + 30);
                     value = dateIST.toLocaleString(undefined, { timeZone: 'Asia/Kolkata' });
                 }
                 datapoint[key] = value;
