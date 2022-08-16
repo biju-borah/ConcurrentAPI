@@ -96,7 +96,14 @@ app.get('/fetch', (req, res, next) => {
                 data["x"] = (Number(datas.data[i].x) + Number(datas.data[i - 1].x)) / 2
                 data["y"] = (Number(datas.data[i].y) + Number(datas.data[i - 1].y)) / 2
                 data["z"] = (Number(datas.data[i].z) + Number(datas.data[i - 1].z)) / 2
-                data["time"] = datas.data[i - 1].time;
+
+                var dateUTC = new Date(datas.data[i - 1].time);
+                var dateUTC = dateUTC.getTime()
+                var dateIST = new Date(dateUTC);
+                dateIST.setHours(dateIST.getHours() + 5);
+                dateIST.setMinutes(dateIST.getMinutes() + 30);
+                data["time"] = dateIST.toLocaleString(undefined, { timeZone: 'Asia/Kolkata' });
+
                 datas_60.data.push(data)
             }
             res.status(200).json(datas_60);
