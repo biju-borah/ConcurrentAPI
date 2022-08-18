@@ -127,7 +127,6 @@ app.get('/fetch', (req, res, next) => {
                 let x = 0
                 let y = 0
                 let z = 0
-                let c = 0
                 let d = 0
                 let e = 0
                 let f = 0
@@ -237,12 +236,12 @@ app.post("/write", (req, res, next) => {
                         "Value": String(data.e)
                     },
                     {
-                        "Name": "d",
+                        "Name": "f",
                         "Type": "DOUBLE",
                         "Value": String(data.f)
                     },
                     {
-                        "Name": "e",
+                        "Name": "g",
                         "Type": "DOUBLE",
                         "Value": String(data.g)
                     },
