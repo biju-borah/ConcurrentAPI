@@ -132,10 +132,11 @@ app.get('/fetch', (req, res, next) => {
                 data["f"] = f / factor
                 data["g"] = g / factor
 
-                var dateUTC = new Date(datas.data[j - 1].time);
-                var dateUTC = dateUTC.getTime()
-                var dateIST = new Date(dateUTC);
-                data["time"] = dateIST.toLocaleString(undefined, { timeZone: 'Asia/Kolkata' });
+                // var dateUTC = new Date(datas.data[j - 1].time);
+                // var dateUTC = dateUTC.getTime()
+                // var dateIST = new Date(dateUTC);
+                // data["time"] = dateIST.toLocaleString(undefined, { timeZone: 'Asia/Kolkata' });
+                data["time"] = " "
                 datas_60.data.push(data)
 
             }
