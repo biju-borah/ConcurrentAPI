@@ -222,12 +222,12 @@ app.post("/write", (req, res, next) => {
                         "Value": String(data.b)
                     },
                        {
-                        "Name": "c",
+                        "Name": "d",
                         "Type": "DOUBLE",
                         "Value": String(data.c)
                     },
                     {
-                        "Name": "d",
+                        "Name": "e",
                         "Type": "DOUBLE",
                         "Value": String(data.d)
                     },
