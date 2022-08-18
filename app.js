@@ -40,11 +40,9 @@ app.get('/fetch', (req, res, next) => {
     const sensor = String(req.query.sensor);
     var timeInterval = Number(req.query.timeInterval);
     let queryLength = 30
-    if (timeInterval == 60) {
-        queryLength = 31
-    }
-    else if (timeInterval == 1800) {
-        queryLength = (timeInterval / 60) * 2 + 29
+
+    if (timeInterval > 30) {
+        queryLength = (timeInterval / 60) * 2 * 30
     }
 
     query = `select * from ${DATABASE_NAME}.${TABLE_NAME} where sensor = '${sensor}' order by time desc limit ${queryLength}`;
@@ -92,34 +90,10 @@ app.get('/fetch', (req, res, next) => {
             datas.data.push(datapoint);
         });
 
-        datas.data.reverse()
-
-        if (timeInterval == 60) {
+        if (timeInterval > 30) {
             let datas_60 = { "data": [] }
-
-            for (let i = 1; i < datas.data.length; i++) {
-                let data = {}
-                data["a"] = (Number(datas.data[i].a) + Number(datas.data[i - 1].a)) / 2
-                data["b"] = (Number(datas.data[i].b) + Number(datas.data[i - 1].b)) / 2
-                data["x"] = (Number(datas.data[i].x) + Number(datas.data[i - 1].x)) / 2
-                data["y"] = (Number(datas.data[i].y) + Number(datas.data[i - 1].y)) / 2
-                data["z"] = (Number(datas.data[i].z) + Number(datas.data[i - 1].z)) / 2
-
-                var dateUTC = new Date(datas.data[i - 1].time);
-                var dateUTC = dateUTC.getTime()
-                var dateIST = new Date(dateUTC);
-                dateIST.setHours(dateIST.getHours() + 5);
-                dateIST.setMinutes(dateIST.getMinutes() + 30);
-                data["time"] = dateIST.toLocaleString(undefined, { timeZone: 'Asia/Kolkata' });
-
-                datas_60.data.push(data)
-            }
-            res.status(200).json(datas_60);
-        }
-
-        else if (timeInterval == 1800) {
-            let datas_1800 = { "data": [] }
-
+            let j = 0
+            var factor = (timeInterval / 60) * 2
             for (let i = 0; i < 30; i++) {
                 let data = {}
                 let a = 0
@@ -131,34 +105,48 @@ app.get('/fetch', (req, res, next) => {
                 let e = 0
                 let f = 0
                 let g = 0
-                for (let j = i; j < datas.data.length; j++) {
-                    if (j - i == (timeInterval / 60) * 2) {
+                for (let k = 0; k < factor; k++) {
+                    if (j == datas.data.length) {
                         break
                     }
-                    a += Number(datas.data[i].a)
-                    b += Number(datas.data[i].a)
-                    x += Number(datas.data[i].a)
-                    y += Number(datas.data[i].a)
-                    z += Number(datas.data[i].a)
-                }
-                data["a"] = a / 60
-                data["b"] = b / 60
-                data["x"] = x / 60
-                data["y"] = y / 60
-                data["z"] = z / 60
+                    a += Number(datas.data[j].a)
+                    b += Number(datas.data[j].b)
+                    x += Number(datas.data[j].x)
+                    y += Number(datas.data[j].y)
+                    z += Number(datas.data[j].z)
+                    d += Number(datas.data[j].d)
+                    e += Number(datas.data[j].e)
+                    f += Number(datas.data[j].f)
+                    g += Number(datas.data[j].g)
 
-                var dateUTC = new Date(datas.data[i - 1].time);
+                    j++
+                }
+
+                data["a"] = a / factor
+                data["b"] = b / factor
+                data["x"] = x / factor
+                data["y"] = y / factor
+                data["z"] = z / factor
+                data["d"] = d / factor
+                data["e"] = e / factor
+                data["f"] = f / factor
+                data["g"] = g / factor
+
+                var dateUTC = new Date(datas.data[j - 1].time);
                 var dateUTC = dateUTC.getTime()
                 var dateIST = new Date(dateUTC);
-                dateIST.setHours(dateIST.getHours() + 5);
-                dateIST.setMinutes(dateIST.getMinutes() + 30);
                 data["time"] = dateIST.toLocaleString(undefined, { timeZone: 'Asia/Kolkata' });
+                datas_60.data.push(data)
 
-                datas_1800.data.push(data)
             }
-            res.status(200).json(datas_1800);
+
+            datas_60.data.reverse()
+            res.status(200).json(datas_60)
         }
-        else res.status(200).json(datas);
+        else {
+            datas.data.reverse()
+            res.status(200).json(datas);
+        }
 
     }, (err) => {
         console.error("Error while querying:", err);
