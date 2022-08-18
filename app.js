@@ -43,7 +43,7 @@ app.get('/fetch', (req, res, next) => {
     if (timeInterval == 60) {
         queryLength = 31
     }
-    else if (timeInterval > 60) {
+    else if (timeInterval == 1800) {
         queryLength = (timeInterval / 60) * 2 + 29
     }
 
@@ -117,7 +117,7 @@ app.get('/fetch', (req, res, next) => {
             res.status(200).json(datas_60);
         }
 
-        else if (timeInterval > 60) {
+        else if (timeInterval == 1800) {
             let datas_1800 = { "data": [] }
 
             for (let i = 0; i < 30; i++) {
@@ -221,7 +221,7 @@ app.post("/write", (req, res, next) => {
                         "Type": "DOUBLE",
                         "Value": String(data.b)
                     },
-                       {
+                    {
                         "Name": "d",
                         "Type": "DOUBLE",
                         "Value": String(data.d)
