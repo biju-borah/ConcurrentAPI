@@ -127,6 +127,11 @@ app.get('/fetch', (req, res, next) => {
                 let x = 0
                 let y = 0
                 let z = 0
+                let c = 0
+                let d = 0
+                let e = 0
+                let f = 0
+                let g = 0
                 for (let j = i; j < datas.data.length; j++) {
                     if (j - i == (timeInterval / 60) * 2) {
                         break
@@ -230,6 +235,16 @@ app.post("/write", (req, res, next) => {
                         "Name": "e",
                         "Type": "DOUBLE",
                         "Value": String(data.e)
+                    },
+                    {
+                        "Name": "d",
+                        "Type": "DOUBLE",
+                        "Value": String(data.f)
+                    },
+                    {
+                        "Name": "e",
+                        "Type": "DOUBLE",
+                        "Value": String(data.g)
                     },
                     {
                         "Name": "c",
