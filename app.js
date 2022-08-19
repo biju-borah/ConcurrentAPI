@@ -171,10 +171,9 @@ app.get('/fetch', (req, res, next) => {
                     var dateUTC = new Date(datas.data[t].time);
                     var dateUTC = dateUTC.getTime()
                     var dateIST = new Date(dateUTC);
-                    dateIST.setSeconds(dateIST.getSeconds() - timeInterval * multi)
+                    dateIST.setSeconds(dateIST.getSeconds() - 30 * multi)
                     multi += 1
                     data["time"] = dateIST.toLocaleString(undefined, { timeZone: 'Asia/Kolkata' });
-                    multi += 1
 
 
                     data["a"] = 0
