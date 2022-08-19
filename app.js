@@ -93,6 +93,8 @@ app.get('/fetch', (req, res, next) => {
         if (timeInterval > 30) {
             let datas_60 = { "data": [] }
             let j = 0
+            let t = 0
+            let multi = 1
             var factor = (timeInterval / 60) * 2
             for (let i = 0; i < 30; i++) {
                 let data = {}
@@ -105,6 +107,22 @@ app.get('/fetch', (req, res, next) => {
                 let e = 0
                 let f = 0
                 let g = 0
+
+                if (j < datas.data.length) {
+                    var dateUTC = new Date(datas.data[j].time);
+                    var dateUTC = dateUTC.getTime()
+                    var dateIST = new Date(dateUTC);
+                    data["time"] = dateIST.toLocaleString(undefined, { timeZone: 'Asia/Kolkata' });
+                    t = j
+                }
+                else {
+                    var dateUTC = new Date(datas.data[t].time);
+                    var dateUTC = dateUTC.getTime()
+                    var dateIST = new Date(dateUTC);
+                    dateIST.setSeconds(dateIST.getSeconds() - timeInterval * multi)
+                    multi += 1
+                    data["time"] = dateIST.toLocaleString(undefined, { timeZone: 'Asia/Kolkata' });
+                }
                 for (let k = 0; k < factor; k++) {
                     if (j == datas.data.length) {
                         break
@@ -132,12 +150,8 @@ app.get('/fetch', (req, res, next) => {
                 data["f"] = f / factor
                 data["g"] = g / factor
 
-                // var dateUTC = new Date(datas.data[j - 1].time);
-                // var dateUTC = dateUTC.getTime()
-                // var dateIST = new Date(dateUTC);
-                // data["time"] = dateIST.toLocaleString(undefined, { timeZone: 'Asia/Kolkata' });
-                data["time"] = " "
                 datas_60.data.push(data)
+
 
             }
 
@@ -146,11 +160,23 @@ app.get('/fetch', (req, res, next) => {
         }
         else {
             if (datas.data.length < 30) {
+                let multi = 1
+                let t = datas.data.length - 1
                 for (let i = 0; i < 30; i++) {
                     if (datas.data.length == 30) {
                         break
                     }
                     data = {}
+
+                    var dateUTC = new Date(datas.data[t].time);
+                    var dateUTC = dateUTC.getTime()
+                    var dateIST = new Date(dateUTC);
+                    dateIST.setSeconds(dateIST.getSeconds() - timeInterval * multi)
+                    multi += 1
+                    data["time"] = dateIST.toLocaleString(undefined, { timeZone: 'Asia/Kolkata' });
+                    multi += 1
+
+
                     data["a"] = 0
                     data["b"] = 0
                     data["x"] = 0
