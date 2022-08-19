@@ -162,15 +162,15 @@ app.get('/fetch', (req, res, next) => {
             if (datas.data.length < 30) {
                 let multi = 1
                 let t = datas.data.length - 1
-                var dateUTC = new Date(datas.data[t].time);
-                var dateUTC = dateUTC.getTime()
-                var dateIST = new Date(dateUTC);
                 for (let i = 0; i < 30; i++) {
                     if (datas.data.length == 30) {
                         break
                     }
                     data = {}
 
+                    var dateUTC = new Date(datas.data[t].time);
+                    var dateUTC = dateUTC.getTime()
+                    var dateIST = new Date(dateUTC);
                     dateIST.setSeconds(dateIST.getSeconds() - 30 * multi)
                     data["time"] = dateIST.toLocaleString(undefined, { timeZone: 'Asia/Kolkata' });
                     multi += 1
