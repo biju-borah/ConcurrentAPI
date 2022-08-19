@@ -147,6 +147,9 @@ app.get('/fetch', (req, res, next) => {
         else {
             if (datas.data.length < 30) {
                 for (let i = 0; i < 30; i++) {
+                    if (datas.data.length == 30) {
+                        break
+                    }
                     data = {}
                     data["a"] = 0
                     data["b"] = 0
