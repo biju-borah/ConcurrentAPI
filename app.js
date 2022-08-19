@@ -145,21 +145,21 @@ app.get('/fetch', (req, res, next) => {
             res.status(200).json(datas_60)
         }
         else {
-            if (datas.data.length < 30) {
-                for (let i = 0; i < 30 - datas.length; i++) {
-                    data = {}
-                    data["a"] = 0
-                    data["b"] = 0
-                    data["x"] = 0
-                    data["y"] = 0
-                    data["z"] = 0
-                    data["d"] = 0
-                    data["e"] = 0
-                    data["f"] = 0
-                    data["g"] = 0
-                    datas.data.push(data)
-                }
+            // if (datas.data.length < 30) {
+            for (let i = 0; i < 30 - datas.length; i++) {
+                data = {}
+                data["a"] = 0
+                data["b"] = 0
+                data["x"] = 0
+                data["y"] = 0
+                data["z"] = 0
+                data["d"] = 0
+                data["e"] = 0
+                data["f"] = 0
+                data["g"] = 0
+                datas.data.push(data)
             }
+            // }
             datas.data.reverse()
             res.status(200).json(datas);
         }
