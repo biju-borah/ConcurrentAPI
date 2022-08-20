@@ -93,8 +93,8 @@ app.get('/fetch', (req, res, next) => {
         if (timeInterval > 30) {
             let datas_60 = { "data": [] }
             let j = 0
-            let t = 0
-            let multi = 1
+            // let t = 0
+            // let multi = 1
             var factor = (timeInterval / 60) * 2
             for (let i = 0; i < 30; i++) {
                 let data = {}
@@ -108,21 +108,24 @@ app.get('/fetch', (req, res, next) => {
                 let f = 0
                 let g = 0
 
-                if (j < datas.data.length) {
+                try {
                     var dateUTC = new Date(datas.data[j].time);
                     var dateUTC = dateUTC.getTime()
                     var dateIST = new Date(dateUTC);
                     data["time"] = dateIST.toLocaleString(undefined, { timeZone: 'Asia/Kolkata' });
-                    t = j
+                } catch {
+                    data["time"] = " "
                 }
-                else {
-                    var dateUTC = new Date(datas.data[t].time);
-                    var dateUTC = dateUTC.getTime()
-                    var dateIST = new Date(dateUTC);
-                    dateIST.setSeconds(dateIST.getSeconds() - timeInterval * multi)
-                    multi += 1
-                    data["time"] = dateIST.toLocaleString(undefined, { timeZone: 'Asia/Kolkata' });
-                }
+                // else {
+                //     var dateUTC = new Date(datas.data[t].time);
+                //     var dateUTC = dateUTC.getTime()
+                //     var dateIST = new Date(dateUTC);
+                //     dateIST.setHours(dateIST.getHours() - 5);
+                //     dateIST.setMinutes(dateIST.getMinutes() - 30);
+                //     dateIST.setSeconds(dateIST.getSeconds() - timeInterval * multi)
+                //     data["time"] = dateIST.toLocaleString(undefined, { timeZone: 'Asia/Kolkata' });
+                //     multi += 1
+                // }
                 for (let k = 0; k < factor; k++) {
                     if (j == datas.data.length) {
                         break
