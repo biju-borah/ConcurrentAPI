@@ -113,15 +113,15 @@ app.get('/fetch', (req, res, next) => {
                     var dateUTC = dateUTC.getTime()
                     var dateIST = new Date(dateUTC);
                     dateIST.setHours(dateIST.getHours() - 6);
-                    // dateIST.setMinutes(dateIST.getMinutes() - 30);
+                    dateIST.setMinutes(dateIST.getMinutes() + 30);
                     data["time"] = dateIST.toLocaleString(undefined, { timeZone: 'Asia/Kolkata' });
                     t = j
                 } catch {
                     var dateUTC = new Date(datas.data[t].time);
                     var dateUTC = dateUTC.getTime()
                     var dateIST = new Date(dateUTC);
-                    dateIST.setHours(dateIST.getHours() - 11);
-                    dateIST.setMinutes(dateIST.getMinutes() - 33);
+                    dateIST.setHours(dateIST.getHours() - 6);
+                    dateIST.setMinutes(dateIST.getMinutes() - 30);
                     dateIST.setSeconds(dateIST.getSeconds() - timeInterval * multi)
                     data["time"] = dateIST.toLocaleString(undefined, { timeZone: 'Asia/Kolkata' });
                     multi += 1
