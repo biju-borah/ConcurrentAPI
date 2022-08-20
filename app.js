@@ -113,7 +113,7 @@ app.get('/fetch', (req, res, next) => {
                     var dateUTC = dateUTC.getTime()
                     var dateIST = new Date(dateUTC);
                     dateIST.setHours(dateIST.getHours() - 6);
-                    dateIST.setMinutes(dateIST.getMinutes() - 3);
+                    // dateIST.setMinutes(dateIST.getMinutes() - 30);
                     data["time"] = dateIST.toLocaleString(undefined, { timeZone: 'Asia/Kolkata' });
                     t = j
                 } catch {
