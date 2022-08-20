@@ -108,14 +108,7 @@ app.get('/fetch', (req, res, next) => {
                 let f = 0
                 let g = 0
 
-                try {
-                    var dateUTC = new Date(datas.data[j].time);
-                    var dateUTC = dateUTC.getTime()
-                    var dateIST = new Date(dateUTC);
-                    data["time"] = dateIST.toLocaleString(undefined, { timeZone: 'Asia/Kolkata' });
-                } catch {
-                    data["time"] = " "
-                }
+
                 // else {
                 //     var dateUTC = new Date(datas.data[t].time);
                 //     var dateUTC = dateUTC.getTime()
@@ -152,6 +145,14 @@ app.get('/fetch', (req, res, next) => {
                 data["e"] = e / factor
                 data["f"] = f / factor
                 data["g"] = g / factor
+                try {
+                    var dateUTC = new Date(datas.data[j - factor].time);
+                    var dateUTC = dateUTC.getTime()
+                    var dateIST = new Date(dateUTC);
+                    data["time"] = dateIST.toLocaleString(undefined, { timeZone: 'Asia/Kolkata' });
+                } catch {
+                    data["time"] = " "
+                }
 
                 datas_60.data.push(data)
 
