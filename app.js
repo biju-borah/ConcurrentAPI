@@ -54,6 +54,8 @@ app.get('/fetch', (req, res, next) => {
         }).promise();
     } catch (err) {
         console.error("Error while querying:", err);
+        res.json({ err: err });
+        next()
         throw err;
     }
 
