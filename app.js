@@ -39,7 +39,7 @@ app.get('/fetch', (req, res, next) => {
 
     const sensor = String(req.query.sensor);
     var timeInterval = Number(req.query.timeInterval);
-    let queryLength = 30
+    let queryLength = 43200
 
     if (timeInterval > 30) {
         queryLength = (timeInterval / 60) * 2 * 30
