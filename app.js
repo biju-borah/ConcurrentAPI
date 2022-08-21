@@ -59,6 +59,7 @@ app.get('/fetch', (req, res, next) => {
 
     response.then((data) => {
         var lastEntryTime = new Date(data.Rows[0].Data[2].ScalarValue)
+        console.log(data)
         var curTime = new Date(Date.now())
         if ((curTime.getTime() - lastEntryTime.getTime()) * 0.001 > timeInterval * 2) {
             res.status(200).json({ err: `No new data has been entered for the last ${timeInterval * 2} secs ` });
