@@ -63,150 +63,150 @@ app.get('/fetch', (req, res, next) => {
     }
 
     response.then((data) => {
-        //     var lastEntryTime = new Date(data.Rows[0].Data[2].ScalarValue)
-        //     console.log(data)
-        //     var curTime = new Date(Date.now())
-        //     if ((curTime.getTime() - lastEntryTime.getTime()) * 0.001 > timeInterval * 2) {
-        //         res.status(200).json({ err: `No new data has been entered for the last ${timeInterval * 2} secs ` });
-        //         return next();
-        //     }
+        var lastEntryTime = new Date(data.Rows[0].Data[2].ScalarValue)
+        console.log(data)
+        var curTime = new Date(Date.now())
+        if ((curTime.getTime() - lastEntryTime.getTime()) * 0.001 > timeInterval * 2) {
+            res.status(200).json({ err: `No new data has been entered for the last ${timeInterval * 2} secs ` });
+            return next();
+        }
 
-        //     records = data.Rows;
-        //     colinfo = data.ColumnInfo;
-        //     let datas = { "data": [] };
+        records = data.Rows;
+        colinfo = data.ColumnInfo;
+        let datas = { "data": [] };
 
-        //     records.forEach(record => {
-        //         const values = record.Data;
-        //         let datapoint = {};
-        //         for (let i = 0; i < values.length; i++) {
-        //             let key = colinfo[i].Name;
-        //             let value = values[i].ScalarValue;
-        //             if (colinfo[i].Type.ScalarType === "DOUBLE" || colinfo[i].Type.ScalarType === "BIGINT") value = Number(value);
-        //             if (colinfo[i].Type.ScalarType === "BOOLEAN") value = Boolean(value);
-        //             if (colinfo[i].Type.ScalarType === "TIMESTAMP") {
-        //                 var dateUTC = new Date(value);
-        //                 var dateUTC = dateUTC.getTime()
-        //                 var dateIST = new Date(dateUTC);
-        //                 // dateIST.setHours(dateIST.getHours() + 5);
-        //                 // dateIST.setMinutes(dateIST.getMinutes() + 30);
-        //                 value = dateIST.toLocaleString(undefined, { timeZone: 'Asia/Kolkata' });
-        //             }
-        //             datapoint[key] = value;
-        //         }
-        //         datas.data.push(datapoint);
-        //     });
+        records.forEach(record => {
+            const values = record.Data;
+            let datapoint = {};
+            for (let i = 0; i < values.length; i++) {
+                let key = colinfo[i].Name;
+                let value = values[i].ScalarValue;
+                if (colinfo[i].Type.ScalarType === "DOUBLE" || colinfo[i].Type.ScalarType === "BIGINT") value = Number(value);
+                if (colinfo[i].Type.ScalarType === "BOOLEAN") value = Boolean(value);
+                if (colinfo[i].Type.ScalarType === "TIMESTAMP") {
+                    var dateUTC = new Date(value);
+                    var dateUTC = dateUTC.getTime()
+                    var dateIST = new Date(dateUTC);
+                    // dateIST.setHours(dateIST.getHours() + 5);
+                    // dateIST.setMinutes(dateIST.getMinutes() + 30);
+                    value = dateIST.toLocaleString(undefined, { timeZone: 'Asia/Kolkata' });
+                }
+                datapoint[key] = value;
+            }
+            datas.data.push(datapoint);
+        });
 
-        //     if (timeInterval > 30) {
-        //         let datas_60 = { "data": [] }
-        //         let j = 0
-        //         let t = 0
-        //         let multi = 1
-        //         var factor = (timeInterval / 60) * 2
-        //         for (let i = 0; i < 30; i++) {
-        //             let data = {}
-        //             let a = 0
-        //             let b = 0
-        //             let x = 0
-        //             let y = 0
-        //             let z = 0
-        //             let d = 0
-        //             let e = 0
-        //             let f = 0
-        //             let g = 0
+        if (timeInterval > 30 && timeInterval < 3600) {
+            let datas_60 = { "data": [] }
+            let j = 0
+            let t = 0
+            let multi = 1
+            var factor = (timeInterval / 60) * 2
+            for (let i = 0; i < 30; i++) {
+                let data = {}
+                let a = 0
+                let b = 0
+                let x = 0
+                let y = 0
+                let z = 0
+                let d = 0
+                let e = 0
+                let f = 0
+                let g = 0
 
-        //             try {
-        //                 var dateUTC = new Date(datas.data[j].time);
-        //                 var dateUTC = dateUTC.getTime()
-        //                 var dateIST = new Date(dateUTC);
-        //                 dateIST.setHours(dateIST.getHours() - 6);
-        //                 dateIST.setMinutes(dateIST.getMinutes() + 30);
-        //                 data["time"] = dateIST.toLocaleString(undefined, { timeZone: 'Asia/Kolkata' });
-        //                 t = j
-        //             } catch {
-        //                 var dateUTC = new Date(datas.data[t].time);
-        //                 var dateUTC = dateUTC.getTime()
-        //                 var dateIST = new Date(dateUTC);
-        //                 dateIST.setHours(dateIST.getHours() - 6);
-        //                 dateIST.setMinutes(dateIST.getMinutes() + 30);
-        //                 dateIST.setSeconds(dateIST.getSeconds() - timeInterval * multi)
-        //                 data["time"] = dateIST.toLocaleString(undefined, { timeZone: 'Asia/Kolkata' });
-        //                 multi += 1
-        //             }
+                try {
+                    var dateUTC = new Date(datas.data[j].time);
+                    var dateUTC = dateUTC.getTime()
+                    var dateIST = new Date(dateUTC);
+                    dateIST.setHours(dateIST.getHours() - 6);
+                    dateIST.setMinutes(dateIST.getMinutes() + 30);
+                    data["time"] = dateIST.toLocaleString(undefined, { timeZone: 'Asia/Kolkata' });
+                    t = j
+                } catch {
+                    var dateUTC = new Date(datas.data[t].time);
+                    var dateUTC = dateUTC.getTime()
+                    var dateIST = new Date(dateUTC);
+                    dateIST.setHours(dateIST.getHours() - 6);
+                    dateIST.setMinutes(dateIST.getMinutes() + 30);
+                    dateIST.setSeconds(dateIST.getSeconds() - timeInterval * multi)
+                    data["time"] = dateIST.toLocaleString(undefined, { timeZone: 'Asia/Kolkata' });
+                    multi += 1
+                }
 
-        //             for (let k = 0; k < factor; k++) {
-        //                 if (j == datas.data.length) {
-        //                     break
-        //                 }
-        //                 a += Number(datas.data[j].a)
-        //                 b += Number(datas.data[j].b)
-        //                 x += Number(datas.data[j].x)
-        //                 y += Number(datas.data[j].y)
-        //                 z += Number(datas.data[j].z)
-        //                 d += Number(datas.data[j].d)
-        //                 e += Number(datas.data[j].e)
-        //                 f += Number(datas.data[j].f)
-        //                 g += Number(datas.data[j].g)
+                for (let k = 0; k < factor; k++) {
+                    if (j == datas.data.length) {
+                        break
+                    }
+                    a += Number(datas.data[j].a)
+                    b += Number(datas.data[j].b)
+                    x += Number(datas.data[j].x)
+                    y += Number(datas.data[j].y)
+                    z += Number(datas.data[j].z)
+                    d += Number(datas.data[j].d)
+                    e += Number(datas.data[j].e)
+                    f += Number(datas.data[j].f)
+                    g += Number(datas.data[j].g)
 
-        //                 j++
-        //             }
+                    j++
+                }
 
-        //             data["a"] = a / factor
-        //             data["b"] = b / factor
-        //             data["x"] = x / factor
-        //             data["y"] = y / factor
-        //             data["z"] = z / factor
-        //             data["d"] = d / factor
-        //             data["e"] = e / factor
-        //             data["f"] = f / factor
-        //             data["g"] = g / factor
+                data["a"] = a / factor
+                data["b"] = b / factor
+                data["x"] = x / factor
+                data["y"] = y / factor
+                data["z"] = z / factor
+                data["d"] = d / factor
+                data["e"] = e / factor
+                data["f"] = f / factor
+                data["g"] = g / factor
 
-        //             datas_60.data.push(data)
-
-
-        //         }
-
-        //         datas_60.data.reverse()
-        //         res.status(200).json(datas_60)
-        //     }
-        //     else {
-        //         if (datas.data.length < 30) {
-        //             let multi = 1
-        //             let t = datas.data.length - 1
-        //             for (let i = 0; i < 30; i++) {
-        //                 if (datas.data.length == 30) {
-        //                     break
-        //                 }
-        //                 data = {}
-
-        //                 var dateUTC = new Date(datas.data[t].time);
-        //                 var dateUTC = dateUTC.getTime()
-        //                 var dateIST = new Date(dateUTC);
-        //                 dateIST.setHours(dateIST.getHours() - 5);
-        //                 dateIST.setMinutes(dateIST.getMinutes() - 30);
-        //                 dateIST.setSeconds(dateIST.getSeconds() - 30 * multi)
-        //                 data["time"] = dateIST.toLocaleString(undefined, { timeZone: 'Asia/Kolkata' });
-        //                 multi += 1
+                datas_60.data.push(data)
 
 
-        //                 data["a"] = 0
-        //                 data["b"] = 0
-        //                 data["x"] = 0
-        //                 data["y"] = 0
-        //                 data["z"] = 0
-        //                 data["d"] = 0
-        //                 data["e"] = 0
-        //                 data["f"] = 0
-        //                 data["g"] = 0
-        //                 datas.data.push(data)
-        //             }
-        //         }
-        //         datas.data.reverse()
-        //         res.status(200).json(datas);
-        //     }
+            }
 
-        // }, (err) => {
-        //     console.error("Error while querying:", err);
-        //     res.json(err)
+            datas_60.data.reverse()
+            res.status(200).json(datas_60)
+        }
+        else {
+            if (datas.data.length < 30) {
+                let multi = 1
+                let t = datas.data.length - 1
+                for (let i = 0; i < 30; i++) {
+                    if (datas.data.length == 30) {
+                        break
+                    }
+                    data = {}
+
+                    var dateUTC = new Date(datas.data[t].time);
+                    var dateUTC = dateUTC.getTime()
+                    var dateIST = new Date(dateUTC);
+                    dateIST.setHours(dateIST.getHours() - 5);
+                    dateIST.setMinutes(dateIST.getMinutes() - 30);
+                    dateIST.setSeconds(dateIST.getSeconds() - timeInterval * multi)
+                    data["time"] = dateIST.toLocaleString(undefined, { timeZone: 'Asia/Kolkata' });
+                    multi += 1
+
+
+                    data["a"] = 0
+                    data["b"] = 0
+                    data["x"] = 0
+                    data["y"] = 0
+                    data["z"] = 0
+                    data["d"] = 0
+                    data["e"] = 0
+                    data["f"] = 0
+                    data["g"] = 0
+                    datas.data.push(data)
+                }
+            }
+            datas.data.reverse()
+            res.status(200).json(datas);
+        }
+
+    }, (err) => {
+        console.error("Error while querying:", err);
+        res.json(err)
         res.status(200).json(data);
     });
 })
