@@ -44,7 +44,7 @@ app.get('/fetch', (req, res, next) => {
     if (timeInterval > 30) {
         queryLength = (timeInterval / 60) * 2 * 30
     }
-    if (timeInterval > 3600) {
+    if (timeInterval >= 3600) {
         queryLength = timeInterval - 1;
     }
     query = `select * from ${DATABASE_NAME}.${TABLE_NAME} where sensor = '${sensor}' order by time desc limit ${queryLength}`;
