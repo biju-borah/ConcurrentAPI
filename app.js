@@ -1,12 +1,15 @@
 const bodyParser = require("body-parser");
 var express = require("express");
+require('dotenv').config();
 var app = express();
 const AWS = require("aws-sdk");
 AWS.config.update({ region: "us-east-1" });
 var https = require('https');
+const {schedule} = require('./scheduler.js');
+const messageService = require('./messageSender');
+const {msg} = require('./triggeredMessage');
 const { DATABASE_NAME, TABLE_NAME } = require('./constant');
 const cors = require('cors');
-
 var agent = new https.Agent({
     maxSockets: 5000
 });
@@ -340,6 +343,20 @@ app.post("/write", (req, res, next) => {
     );
 });
 
+app.post('/msg', async(req, res) => {
+    const number = process.env.MY_NUMBER;
+    try {
+        const resp = await messageService.send_sms(msg, number);
+        console.log(resp);
+        res.send(resp);
+    } catch(e) {
+        res.send(e);
+    }
+})
+
 app.listen(process.env.PORT, () => {
-    console.log("Server running");
+    schedule().then(() => {
+        console.log("Server running");
+    })
+    // console.log("Server running");
 });
