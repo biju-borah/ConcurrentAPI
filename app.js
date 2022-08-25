@@ -299,8 +299,8 @@ app.post('/msg', async(req, res) => {
 })
 
 app.listen(process.env.PORT, () => {
-    schedule().then(() => {
-        console.log("Server running");
-    })
-    // console.log("Server running");
+    // schedule().then(() => {
+    //     console.log("Server running");
+    // })
+    console.log("Server running");
 });
