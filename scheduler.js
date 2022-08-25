@@ -6,9 +6,9 @@ var cron = require('node-cron');
 // 48 hours === 172800 seconds
 // per 30 seconds check the db if 
 
-const MESSAGE_TIME=process.env.MESSAGE_TIME||30
-const CACHE_CHECK_PERIOD=process.env.CACHE_CHECK_PERIOD||100;
-const CONSTANT_CHECK_DB_TIME=process.env.CONSTANT_CHECK_DB_TIME||10;
+const MESSAGE_TIME=process.env.MESSAGE_TIME;
+const CACHE_CHECK_PERIOD=process.env.CACHE_CHECK_PERIOD
+const CONSTANT_CHECK_DB_TIME=process.env.CONSTANT_CHECK_DB_TIME;
 
 const cache = new NodeCache({ stdTTL: MESSAGE_TIME, checkperiod: CACHE_CHECK_PERIOD });
 
