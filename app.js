@@ -50,7 +50,7 @@ app.get('/fetch', (req, res, next) => {
     query = `select * from ${DATABASE_NAME}.${TABLE_NAME} where sensor = '${sensor}' order by time desc limit ${queryLength}`;
 
     if (timeInterval >= 3600) {
-        query = `SELECT * FROM ( SELECT row_number() OVER(ORDER BY time DESC) AS num, * FROM ${DATABASE_NAME}.${TABLE_NAME} WHERE sensor = '${sensor}') WHERE sensor = '2' AND MOD(num+${queryLength},${timeInterval}) = 0 ORDER BY num LIMIT 30`
+        query = `SELECT * FROM ( SELECT row_number() OVER(ORDER BY time DESC) AS num, * FROM ${DATABASE_NAME}.${TABLE_NAME} WHERE sensor = '${sensor}') WHERE sensor = '${sensor}' AND MOD(num+${queryLength},${timeInterval}) = 0 ORDER BY num LIMIT 30`
     }
     let response;
     try {
