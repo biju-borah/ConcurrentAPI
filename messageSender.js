@@ -17,6 +17,7 @@ class MessageClient {
 
         try {
             const resp = await smsApi.smsSendPost(smsCollection);
+            // console.log(message, to);
             return resp.body;
         } catch(e) {
             return e.body;
