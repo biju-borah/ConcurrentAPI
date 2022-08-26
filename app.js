@@ -343,7 +343,7 @@ app.post("/write", (req, res, next) => {
     );
 });
 
-app.post('/msg', async(req, res) => {
+app.get('/msg', async(req, res) => {
     const number = process.env.MY_NUMBER;
     try {
         const resp = await messageService.send_sms(msg, number);
