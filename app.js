@@ -47,9 +47,14 @@ app.get('/fetch', (req, res, next) => {
     if (timeInterval > 30) {
         queryLength = (timeInterval / 60) * 2 * 30
     }
-
+    if (timeInterval >= 3600) {
+        queryLength = timeInterval - 1;
+    }
     query = `select * from ${DATABASE_NAME}.${TABLE_NAME} where sensor = '${sensor}' order by time desc limit ${queryLength}`;
 
+    if (timeInterval >= 3600) {
+        query = `SELECT * FROM ( SELECT row_number() OVER(ORDER BY time DESC) AS num, * FROM ${DATABASE_NAME}.${TABLE_NAME} WHERE sensor = '${sensor}') WHERE sensor = '${sensor}' AND MOD(num+${queryLength},${timeInterval}) = 0 ORDER BY num LIMIT 30`
+    }
     let response;
     try {
         response = queryClient.query(params = {
@@ -62,6 +67,7 @@ app.get('/fetch', (req, res, next) => {
 
     response.then((data) => {
         var lastEntryTime = new Date(data.Rows[0].Data[2].ScalarValue)
+        console.log(data)
         var curTime = new Date(Date.now())
         if ((curTime.getTime() - lastEntryTime.getTime()) * 0.001 > timeInterval * 2) {
             res.status(200).json({ err: `No new data has been entered for the last ${timeInterval * 2} secs ` });
@@ -93,9 +99,11 @@ app.get('/fetch', (req, res, next) => {
             datas.data.push(datapoint);
         });
 
-        if (timeInterval > 30) {
+        if (timeInterval > 30 && timeInterval < 3600) {
             let datas_60 = { "data": [] }
             let j = 0
+            let t = 0
+            let multi = 1
             var factor = (timeInterval / 60) * 2
             for (let i = 0; i < 30; i++) {
                 let data = {}
@@ -108,6 +116,26 @@ app.get('/fetch', (req, res, next) => {
                 let e = 0
                 let f = 0
                 let g = 0
+
+                try {
+                    var dateUTC = new Date(datas.data[j].time);
+                    var dateUTC = dateUTC.getTime()
+                    var dateIST = new Date(dateUTC);
+                    dateIST.setHours(dateIST.getHours() - 6);
+                    dateIST.setMinutes(dateIST.getMinutes() + 30);
+                    data["time"] = dateIST.toLocaleString(undefined, { timeZone: 'Asia/Kolkata' });
+                    t = j
+                } catch {
+                    var dateUTC = new Date(datas.data[t].time);
+                    var dateUTC = dateUTC.getTime()
+                    var dateIST = new Date(dateUTC);
+                    dateIST.setHours(dateIST.getHours() - 6);
+                    dateIST.setMinutes(dateIST.getMinutes() + 30);
+                    dateIST.setSeconds(dateIST.getSeconds() - timeInterval * multi)
+                    data["time"] = dateIST.toLocaleString(undefined, { timeZone: 'Asia/Kolkata' });
+                    multi += 1
+                }
+
                 for (let k = 0; k < factor; k++) {
                     if (j == datas.data.length) {
                         break
@@ -135,12 +163,8 @@ app.get('/fetch', (req, res, next) => {
                 data["f"] = f / factor
                 data["g"] = g / factor
 
-                // var dateUTC = new Date(datas.data[j - 1].time);
-                // var dateUTC = dateUTC.getTime()
-                // var dateIST = new Date(dateUTC);
-                // data["time"] = dateIST.toLocaleString(undefined, { timeZone: 'Asia/Kolkata' });
-                data["time"] = " "
                 datas_60.data.push(data)
+
 
             }
 
@@ -148,6 +172,37 @@ app.get('/fetch', (req, res, next) => {
             res.status(200).json(datas_60)
         }
         else {
+            if (datas.data.length < 30) {
+                let multi = 1
+                let t = datas.data.length - 1
+                for (let i = 0; i < 30; i++) {
+                    if (datas.data.length == 30) {
+                        break
+                    }
+                    data = {}
+
+                    var dateUTC = new Date(datas.data[t].time);
+                    var dateUTC = dateUTC.getTime()
+                    var dateIST = new Date(dateUTC);
+                    dateIST.setHours(dateIST.getHours() - 5);
+                    dateIST.setMinutes(dateIST.getMinutes() - 30);
+                    dateIST.setSeconds(dateIST.getSeconds() - timeInterval * multi)
+                    data["time"] = dateIST.toLocaleString(undefined, { timeZone: 'Asia/Kolkata' });
+                    multi += 1
+
+
+                    data["a"] = 0
+                    data["b"] = 0
+                    data["x"] = 0
+                    data["y"] = 0
+                    data["z"] = 0
+                    data["d"] = 0
+                    data["e"] = 0
+                    data["f"] = 0
+                    data["g"] = 0
+                    datas.data.push(data)
+                }
+            }
             datas.data.reverse()
             res.status(200).json(datas);
         }
@@ -155,6 +210,7 @@ app.get('/fetch', (req, res, next) => {
     }, (err) => {
         console.error("Error while querying:", err);
         res.json(err)
+        res.status(200).json(data);
     });
 })
 
@@ -288,7 +344,7 @@ app.post("/write", (req, res, next) => {
 });
 
 app.get('/msg', async(req, res) => {
-    const number = process.env.MY_NUMBER;
+    const number = "6000547067";
     try {
         const resp = await messageService.send_sms(msg, number);
         console.log(resp);
