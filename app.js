@@ -5,9 +5,9 @@ var app = express();
 const AWS = require("aws-sdk");
 AWS.config.update({ region: "us-east-1" });
 var https = require('https');
-const {schedule} = require('./scheduler.js');
+const { schedule } = require('./scheduler.js');
 const messageService = require('./messageSender');
-const {msg} = require('./triggeredMessage');
+const { msg } = require('./triggeredMessage');
 const { DATABASE_NAME, TABLE_NAME } = require('./constant');
 const cors = require('cors');
 var agent = new https.Agent({
@@ -47,14 +47,12 @@ app.get('/fetch', (req, res, next) => {
     if (timeInterval > 30) {
         queryLength = (timeInterval / 60) * 2 * 30
     }
-    if (timeInterval >= 3600) {
-        queryLength = timeInterval - 1;
-    }
     query = `select * from ${DATABASE_NAME}.${TABLE_NAME} where sensor = '${sensor}' order by time desc limit ${queryLength}`;
-
     if (timeInterval >= 3600) {
-        query = `SELECT * FROM ( SELECT row_number() OVER(ORDER BY time DESC) AS num, * FROM ${DATABASE_NAME}.${TABLE_NAME} WHERE sensor = '${sensor}') WHERE sensor = '${sensor}' AND MOD(num+${queryLength},${timeInterval}) = 0 ORDER BY num LIMIT 30`
+        queryLength = (timeInterval / 30) - 1;
+        query = `SELECT * FROM ( SELECT row_number() OVER(ORDER BY time DESC) AS num, * FROM ${DATABASE_NAME}.${TABLE_NAME} WHERE sensor = '${sensor}') WHERE sensor = '${sensor}' AND MOD(num+${queryLength},${timeInterval / 30}) = 0 ORDER BY num LIMIT 30`
     }
+
     let response;
     try {
         response = queryClient.query(params = {
@@ -343,13 +341,13 @@ app.post("/write", (req, res, next) => {
     );
 });
 
-app.get('/msg', async(req, res) => {
+app.get('/msg', async (req, res) => {
     const number = "6000547067";
     try {
         const resp = await messageService.send_sms(msg, number);
         console.log(resp);
         res.send(resp);
-    } catch(e) {
+    } catch (e) {
         res.send(e);
     }
 })
